@@ -1,3 +1,4 @@
+--Slap aura Super Op feito por um Brasileiro 
 local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
 gui.Parent = player:WaitForChild("PlayerGui")
@@ -57,13 +58,13 @@ letterE.Font = Enum.Font.SourceSansBold
 -- Criando a TextBox para o jogador escolher qual evento será chamado
 local textBox = Instance.new("TextBox", gui)
 textBox.Size = UDim2.new(0, 200, 0, 50)
-textBox.Position = UDim2.new(0, 0, 0, 250)
+textBox.Position = UDim2.new(0, 0, 0, 275)
 textBox.PlaceholderText = "Nome da luva será mostrado aqui"
 textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 textBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 
---textBox.BackgroundTransparency = 1
---textBox.TextTransparency = 1
+--se quiser colocar isso aq o:textBox.BackgroundTransparency = 1
+--se quiser colocad isso aq o:textBox.TextTransparency = 1
 
 
 
@@ -228,5 +229,5 @@ end)
 -- Atualizar o nome da luva na TextBox a cada 2 segundos
 while true do
     verificarLuva()  -- Atualiza o nome da luva com "Hit"
-    wait(2)  -- Espera 2 segundos antes de atualizar novamente
+    wait(1.7)  -- Espera 2 segundos antes de atualizar novamente
 end
