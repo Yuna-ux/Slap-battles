@@ -57,13 +57,13 @@ letterE.Font = Enum.Font.SourceSansBold
 -- Criando a TextBox para o jogador escolher qual evento será chamado
 local textBox = Instance.new("TextBox", gui)
 textBox.Size = UDim2.new(0, 200, 0, 50)
-textBox.Position = UDim2.new(0, 0, 0, 180)
+textBox.Position = UDim2.new(0, 0, 0, 250)
 textBox.PlaceholderText = "Nome da luva será mostrado aqui"
 textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 textBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 
-textBox.BackgroundTransparency = 1
-textBox.TextTransparency = 1
+--textBox.BackgroundTransparency = 1
+--textBox.TextTransparency = 1
 
 
 
