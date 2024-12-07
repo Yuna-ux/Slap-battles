@@ -62,6 +62,11 @@ textBox.PlaceholderText = "Nome da luva será mostrado aqui"
 textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 textBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 
+textBox.BackgroundTransparency = 1
+textBox.TextTransparency = 1
+
+
+
 -- Função para pegar o nome da luva e adicionar "Hit", com exceção de casos específicos
 local function verificarLuva()
     -- Verificar se o jogador tem leaderstats
