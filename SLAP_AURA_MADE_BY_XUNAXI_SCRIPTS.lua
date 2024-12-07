@@ -81,6 +81,8 @@ local function verificarLuva()
                 hitName = "KSHit"
             elseif gloveName == "Titan" then
                 hitName = "GeneralHit"
+            elseif gloveName == "Dual" then
+                hitName = "GeneralHit"  -- Exibe "GeneralHit" ao invés de "DualHit"
             elseif gloveName == "Default" then
                 hitName = "b"  -- Exibe "b" ao invés de "DefaultHit"
             elseif gloveName == "Extended" then
@@ -142,10 +144,19 @@ local function slapClosestPlayer()
 
         -- Chamar o evento digitado na TextBox
         local eventName = textBox.Text
-        if game:GetService("ReplicatedStorage"):FindFirstChild(eventName) then
-            game:GetService("ReplicatedStorage")[eventName]:FireServer(unpack(args))
+        local eventToCall = game:GetService("ReplicatedStorage"):FindFirstChild(eventName)
+        
+        -- Se o evento não for válido, tentar "GeneralHit"
+        if not eventToCall then
+            print("Evento não encontrado: " .. eventName .. ". Tentando 'GeneralHit'...")
+            eventToCall = game:GetService("ReplicatedStorage"):FindFirstChild("GeneralHit")
+        end
+        
+        -- Verificar se o evento foi encontrado e disparar
+        if eventToCall then
+            eventToCall:FireServer(unpack(args))
         else
-            warn("Evento não encontrado: " .. eventName)
+            warn("Evento 'GeneralHit' também não encontrado.")
         end
     end
 end
