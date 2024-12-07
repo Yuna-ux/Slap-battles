@@ -212,6 +212,14 @@ square.InputBegan:Connect(function(input, gameProcessedEvent)
     end
 end)
 
+-- Detectar quando a tecla "E" for pressionada
+game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent)
+    if gameProcessedEvent then return end
+    if input.KeyCode == Enum.KeyCode.E then
+        onSquareClick()  -- Chama a função para ativar o botão vermelho
+    end
+end)
+
 -- Atualizar o nome da luva na TextBox a cada 2 segundos
 while true do
     verificarLuva()  -- Atualiza o nome da luva com "Hit"
