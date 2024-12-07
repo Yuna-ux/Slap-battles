@@ -58,9 +58,48 @@ letterE.Font = Enum.Font.SourceSansBold
 local textBox = Instance.new("TextBox", gui)
 textBox.Size = UDim2.new(0, 200, 0, 50)
 textBox.Position = UDim2.new(0, 0, 0, 180)
-textBox.PlaceholderText = "Digite o nome do evento"
+textBox.PlaceholderText = "Nome da luva será mostrado aqui"
 textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 textBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+
+-- Função para pegar o nome da luva e adicionar "Hit", com exceção de casos específicos
+local function verificarLuva()
+    -- Verificar se o jogador tem leaderstats
+    local leaderstats = player:FindFirstChild("leaderstats")
+    
+    if leaderstats then
+        -- Obter a categoria "Glove"
+        local glove = leaderstats:FindFirstChild("Glove")
+        
+        if glove then
+            -- Pegar o nome da luva e adicionar "Hit"
+            local gloveName = glove.Value
+            local hitName
+
+            -- Condicional para casos especiais
+            if gloveName == "Killstreak" then
+                hitName = "KSHit"
+            elseif gloveName == "Titan" then
+                hitName = "GeneralHit"
+            elseif gloveName == "Default" then
+                hitName = "b"  -- Exibe "b" ao invés de "DefaultHit"
+            elseif gloveName == "Extended" then
+                hitName = "b"  -- Exibe "b" ao invés de "ExtendedHit"
+            else
+                hitName = gloveName .. "Hit"  -- Adiciona "Hit" normalmente
+            end
+            
+            -- Atualizar o texto da TextBox com o nome da luva + "Hit" (ou modificado para KSHit/GeneralHit)
+            textBox.Text = hitName  -- A TextBox é atualizada aqui com o nome da luva + "Hit"
+            
+            print("O nome da luva com 'Hit' é: " .. hitName) -- Log para ver no console
+        else
+            print("A categoria 'Glove' não foi encontrada nos leaderstats.")
+        end
+    else
+        print("O jogador não tem leaderstats.")
+    end
+end
 
 -- Função para tocar a animação de slap
 local function playAnimation()
@@ -162,3 +201,8 @@ square.InputBegan:Connect(function(input, gameProcessedEvent)
     end
 end)
 
+-- Atualizar o nome da luva na TextBox a cada 2 segundos
+while true do
+    verificarLuva()  -- Atualiza o nome da luva com "Hit"
+    wait(2)  -- Espera 2 segundos antes de atualizar novamente
+end
