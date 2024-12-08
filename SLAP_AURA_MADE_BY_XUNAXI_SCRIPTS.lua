@@ -1,5 +1,7 @@
 --Slap aura Super Op feito por um Brasileiro 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/RESTO_SCRIPT.lua"))();
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui")
+gui.Parent = player:WaitForChild("PlayerGui")
 -- Criando o som para a notificação
 local sound = Instance.new("Sound")
 sound.SoundId = "rbxassetid://12222242"  -- ID do som
