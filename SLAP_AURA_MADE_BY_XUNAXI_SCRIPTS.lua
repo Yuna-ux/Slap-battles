@@ -103,7 +103,7 @@ gui.Parent = player:WaitForChild("PlayerGui")
 
 -- Criando o som para a notificação
 local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://12222242"
+sound.SoundId = "rbxassetid://632244280"
 sound.Looped = true 
 sound.Volume = 35
 
