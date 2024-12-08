@@ -1,4 +1,6 @@
 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/BOTÕES_SLAP_AURA_XUNAXI.lua"))();
+
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
