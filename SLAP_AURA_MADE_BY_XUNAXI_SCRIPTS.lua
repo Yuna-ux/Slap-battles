@@ -4,7 +4,7 @@ gui.Parent = player:WaitForChild("PlayerGui")
 
 -- Criando o som para a notificação
 local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://96300753876311"  -- ID do som
+sound.SoundId = "rbxassetid://74499492757133"  -- ID do som
 sound.Parent = player.Character or player.CharacterAdded:Wait()
 
 -- Enviar a notificação com som
