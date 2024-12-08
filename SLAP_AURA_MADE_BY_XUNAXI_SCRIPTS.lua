@@ -1,70 +1,24 @@
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
--- Locate the right hand part (may vary depending on the rig)
+-- Localizar a mão direita (se necessário, mantendo a estrutura do código original)
 local rightHand = character:FindFirstChild("RightHand") or character:FindFirstChild("Right Arm") or character:FindFirstChild("RightUpperArm")
 
 if rightHand then
-    -- Código sem a criação do ParticleEmitter
-    print("Right hand localizado: " .. rightHand.Name)
-end
-
--- Script para ajustar a velocidade e remover eventos específicos
-
--- Ajusta a velocidade do personagem para 35 em loop
-while true do
-    if character:FindFirstChild("Humanoid") then
-        character.Humanoid.WalkSpeed = 35
-    end
-    wait(0.1) -- Ajusta a cada 0.1 segundos para garantir a consistência
-end
-
--- Remove eventos específicos
-local function removeEvent(eventName)
-    for _, child in pairs(game:GetDescendants()) do
-        if child:IsA("RemoteEvent") and child.Name == eventName then
-            child:Destroy()
-            print("Evento '" .. eventName .. "' removido.")
-        end
-    end
-end
-
--- Loop para verificar e remover os eventos
-spawn(function()
-    while true do
-        removeEvent("Ban")
-        removeEvent("AdminGUI")
-        wait(1) -- Verifica a cada 1 segundo
-    end
-end)
-
-    -- Function to create a new PointLight with specific settings
-    local function createPointLight(parent)
-        local pointLight = Instance.new("PointLight")
-        pointLight.Color = Color3.fromRGB(170, 0, 255) -- Bright purple
-        pointLight.Range = 12 -- Larger light radius
-        pointLight.Brightness = 3 -- Increased intensity
-        pointLight.Parent = parent
-        return pointLight
-    end
-
-    -- Create multiple ParticleEmitters and PointLights
-    for i = 1, 3 do
-        
-        createPointLight(rightHand)
-    end
+    print("Right hand localizada: " .. rightHand.Name)
 else
     warn("Right hand part not found.")
 end
 
+-- Remover partículas relacionadas ao "ModelDeath"
 local ModelDeath = game:GetObjects("rbxassetid://12195574482")[1]
 if ModelDeath then
-    for i,a in pairs(ModelDeath.Torso:GetDescendants()) do
+    for _, a in pairs(ModelDeath.Torso:GetDescendants()) do
         if a.Name == "Attachment4" or a.Name == "Flare" or a.Name == "Star3" or a.Name == "Bits" then
-            a:Destroy() 
+            a:Destroy()
         end
     end
-    for i,a in pairs(ModelDeath.Torso:GetChildren()) do
+    for _, a in pairs(ModelDeath.Torso:GetChildren()) do
         if a.ClassName == "Attachment" and a:FindFirstChildWhichIsA("ParticleEmitter") then
             a:Clone().Parent = game.Players.LocalPlayer.Character.Torso
         end
@@ -72,49 +26,37 @@ if ModelDeath then
     ModelDeath:Destroy()
 end
 
--- Get the local player and their character
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-
--- Function to make the character, including hair and accessories, fully black and apply a red outline
+-- Deixar o personagem completamente preto com um contorno vermelho
 local function makeCharacterCompletelyBlack()
     for _, descendant in pairs(character:GetDescendants()) do
         if descendant:IsA("BasePart") or descendant:IsA("MeshPart") then
-            descendant.Color = Color3.new(0, 0, 0) -- Make all body parts black
+            descendant.Color = Color3.new(0, 0, 0) -- Preto
             descendant.Material = Enum.Material.SmoothPlastic
-        elseif descendant:IsA("Accessory") then
-            if descendant:FindFirstChild("Handle") then
-                -- Turn the handle of the accessory black
-                descendant.Handle.Color = Color3.new(0, 0, 0)
-                descendant.Handle.Material = Enum.Material.SmoothPlastic
-
-                -- Check for meshes or textures in the accessory's handle
-                for _, child in pairs(descendant.Handle:GetDescendants()) do
-                    if child:IsA("MeshPart") or child:IsA("Part") or child:IsA("UnionOperation") then
-                        child.Color = Color3.new(0, 0, 0)
-                        child.Material = Enum.Material.SmoothPlastic
-                    elseif child:IsA("SpecialMesh") then
-                        child.TextureId = "" -- Remove texture for a uniform color
-                    end
-                end
-            end
-        elseif descendant:IsA("Decal") or descendant:IsA("Texture") then
-            descendant:Destroy() -- Remove decals and textures
-        elseif descendant:IsA("Clothing") or descendant:IsA("ShirtGraphic") then
-            descendant:Destroy() -- Remove clothing to keep the body fully black
+        elseif descendant:IsA("Accessory") and descendant:FindFirstChild("Handle") then
+            local handle = descendant.Handle
+            handle.Color = Color3.new(0, 0, 0)
+            handle.Material = Enum.Material.SmoothPlastic
+        elseif descendant:IsA("Decal") or descendant:IsA("Texture") or descendant:IsA("Clothing") or descendant:IsA("ShirtGraphic") then
+            descendant:Destroy()
         end
     end
 
-    -- Add a red outline effect to the character
     local outlineEffect = Instance.new("Highlight")
     outlineEffect.Parent = character
-    outlineEffect.OutlineColor = Color3.new(1, 0, 0) -- Red outline
-    outlineEffect.FillColor = Color3.new(0, 0, 0) -- Black fill
-    outlineEffect.FillTransparency = 1 -- Only show the outline
+    outlineEffect.OutlineColor = Color3.new(1, 0, 0) -- Vermelho
+    outlineEffect.FillTransparency = 1 -- Apenas contorno
 end
 
--- Execute the function
 makeCharacterCompletelyBlack()
+
+-- Adicionar velocidade 40 ao personagem em loop
+while true do
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    if humanoid then
+        humanoid.WalkSpeed = 40 -- Define a velocidade para 40
+    end
+    wait(0.2) -- Loop a cada 0.2 segundos
+end
 
 local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
