@@ -10,8 +10,6 @@ if rightHand then
 end
 
 -- Script para ajustar a velocidade e remover eventos específicos
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
 
 -- Ajusta a velocidade do personagem para 35 em loop
 while true do
