@@ -137,14 +137,6 @@ button.Font = Enum.Font.SourceSans
 button.TextScaled = true
 button.Parent = screenGui
 
--- Load animation
-local animationId = "rbxassetid://16102413143"
-local animation = Instance.new("Animation")
-animation.AnimationId = animationId
-local character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
-local humanoid = character:WaitForChild("Humanoid")
-local animationTrack = humanoid:LoadAnimation(animation)
-
 -- Criando a borda preta (100x100)
 local border = Instance.new("Frame", gui)
 border.Size = UDim2.new(0, 100, 0, 100)
