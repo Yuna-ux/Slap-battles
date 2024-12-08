@@ -1,4 +1,103 @@
 local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Locate the right hand part (may vary depending on the rig)
+local rightHand = character:FindFirstChild("RightHand") or character:FindFirstChild("Right Arm") or character:FindFirstChild("RightUpperArm")
+
+if rightHand then
+    -- Function to create a new ParticleEmitter with specific settings
+    local function createParticleEmitter(parent)
+        local particleEmitter = Instance.new("ParticleEmitter")
+        particleEmitter.Color = ColorSequence.new(Color3.fromRGB(170, 0, 255)) -- Bright purple
+        particleEmitter.Size = NumberSequence.new(0.6) -- Slightly larger particles
+        particleEmitter.Texture = "rbxassetid://242968390" -- Optional texture for particles
+        particleEmitter.Rate = 75 -- High particle rate for intensity
+        particleEmitter.Lifetime = NumberRange.new(0.4, 0.8) -- Duration of each particle
+        particleEmitter.Speed = NumberRange.new(4, 8) -- Faster particles for dynamic effect
+        particleEmitter.LightEmission = 1 -- Make particles glow
+        particleEmitter.Parent = parent
+        return particleEmitter
+    end
+
+    -- Function to create a new PointLight with specific settings
+    local function createPointLight(parent)
+        local pointLight = Instance.new("PointLight")
+        pointLight.Color = Color3.fromRGB(170, 0, 255) -- Bright purple
+        pointLight.Range = 12 -- Larger light radius
+        pointLight.Brightness = 3 -- Increased intensity
+        pointLight.Parent = parent
+        return pointLight
+    end
+
+    -- Create multiple ParticleEmitters and PointLights
+    for i = 1, 3 do
+        createParticleEmitter(rightHand)
+        createPointLight(rightHand)
+    end
+else
+    warn("Right hand part not found.")
+end
+
+local ModelDeath = game:GetObjects("rbxassetid://12195574482")[1]
+if ModelDeath then
+    for i,a in pairs(ModelDeath.Torso:GetDescendants()) do
+        if a.Name == "Attachment4" or a.Name == "Flare" or a.Name == "Star3" or a.Name == "Bits" then
+            a:Destroy() 
+        end
+    end
+    for i,a in pairs(ModelDeath.Torso:GetChildren()) do
+        if a.ClassName == "Attachment" and a:FindFirstChildWhichIsA("ParticleEmitter") then
+            a:Clone().Parent = game.Players.LocalPlayer.Character.Torso
+        end
+    end
+    ModelDeath:Destroy()
+end
+
+-- Get the local player and their character
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Function to make the character, including hair and accessories, fully black and apply a red outline
+local function makeCharacterCompletelyBlack()
+    for _, descendant in pairs(character:GetDescendants()) do
+        if descendant:IsA("BasePart") or descendant:IsA("MeshPart") then
+            descendant.Color = Color3.new(0, 0, 0) -- Make all body parts black
+            descendant.Material = Enum.Material.SmoothPlastic
+        elseif descendant:IsA("Accessory") then
+            if descendant:FindFirstChild("Handle") then
+                -- Turn the handle of the accessory black
+                descendant.Handle.Color = Color3.new(0, 0, 0)
+                descendant.Handle.Material = Enum.Material.SmoothPlastic
+
+                -- Check for meshes or textures in the accessory's handle
+                for _, child in pairs(descendant.Handle:GetDescendants()) do
+                    if child:IsA("MeshPart") or child:IsA("Part") or child:IsA("UnionOperation") then
+                        child.Color = Color3.new(0, 0, 0)
+                        child.Material = Enum.Material.SmoothPlastic
+                    elseif child:IsA("SpecialMesh") then
+                        child.TextureId = "" -- Remove texture for a uniform color
+                    end
+                end
+            end
+        elseif descendant:IsA("Decal") or descendant:IsA("Texture") then
+            descendant:Destroy() -- Remove decals and textures
+        elseif descendant:IsA("Clothing") or descendant:IsA("ShirtGraphic") then
+            descendant:Destroy() -- Remove clothing to keep the body fully black
+        end
+    end
+
+    -- Add a red outline effect to the character
+    local outlineEffect = Instance.new("Highlight")
+    outlineEffect.Parent = character
+    outlineEffect.OutlineColor = Color3.new(1, 0, 0) -- Red outline
+    outlineEffect.FillColor = Color3.new(0, 0, 0) -- Black fill
+    outlineEffect.FillTransparency = 1 -- Only show the outline
+end
+
+-- Execute the function
+makeCharacterCompletelyBlack()
+
+local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
 gui.Parent = player:WaitForChild("PlayerGui")
 
