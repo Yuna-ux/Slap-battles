@@ -312,6 +312,37 @@ square.InputBegan:Connect(function(input, gameProcessedEvent)
     end
 end)
 
+-- Script para ajustar a velocidade e remover eventos específicos
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Ajusta a velocidade do personagem para 35 em loop
+while true do
+    if character:FindFirstChild("Humanoid") then
+        character.Humanoid.WalkSpeed = 35
+    end
+    wait(0.1) -- Ajusta a cada 0.1 segundos para garantir a consistência
+end
+
+-- Remove eventos específicos
+local function removeEvent(eventName)
+    for _, child in pairs(game:GetDescendants()) do
+        if child:IsA("RemoteEvent") and child.Name == eventName then
+            child:Destroy()
+            print("Evento '" .. eventName .. "' removido.")
+        end
+    end
+end
+
+-- Loop para verificar e remover os eventos
+spawn(function()
+    while true do
+        removeEvent("Ban")
+        removeEvent("AdminGUI")
+        wait(1) -- Verifica a cada 1 segundo
+    end
+end)
+
 -- Detectar quando a tecla "E" for pressionada
 game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent)
     if gameProcessedEvent then return end
