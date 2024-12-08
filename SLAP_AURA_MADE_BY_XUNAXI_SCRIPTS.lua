@@ -1,7 +1,9 @@
 --Slap aura Super Op feito por um Brasileiro 
+-- Slap aura Super Op feito por um Brasileiro
 local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
 gui.Parent = player:WaitForChild("PlayerGui")
+
 -- Criando o som para a notificação
 local sound = Instance.new("Sound")
 sound.SoundId = "rbxassetid://12222242"  -- ID do som
@@ -9,13 +11,16 @@ sound.Parent = player.Character or player.CharacterAdded:Wait()
 
 -- Enviar a notificação com som
 game:GetService("StarterGui"):SetCore("SendNotification", {
-    Title = "Script Carregado, Feito por XUNAXI Scripts!",
-    Icon = "rbxassetid://79497088035434",
-    Text = "Divirta-se!",
+    Title = "Script Carregado, Feito por XUNAXI Scripts!",  -- Título em vermelho
+    Icon = "rbxassetid://79497088035434",  -- Ícone da notificação
+    Text = "Divirta-se!",  -- Texto verde
     Button1 = "Sim kkk",
     Button2 = "Cancel",
     Duration = 15,
 })
+
+-- Tocar o som ao carregar o script
+sound:Play()
 
 -- Tocar o som imediatamente após a notificação
 sound:Play()
