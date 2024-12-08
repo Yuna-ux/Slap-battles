@@ -100,11 +100,11 @@ makeCharacterCompletelyBlack()-- Execute the function
 local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
 gui.Parent = player:WaitForChild("PlayerGui")
-screenGui.ResetOnSpawn = false
+
 
 -- Criando o som para a notificação
 local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://9044565954"
+sound.SoundId = "rbxassetid://9044565954",
 sound.Looped = true 
 sound.Volume = 35
 
