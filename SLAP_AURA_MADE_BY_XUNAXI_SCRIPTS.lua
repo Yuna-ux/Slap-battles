@@ -1,3 +1,55 @@
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Localizar a mão direita (se necessário, mantendo a estrutura do código original)
+local rightHand = character:FindFirstChild("RightHand") or character:FindFirstChild("Right Arm") or character:FindFirstChild("RightUpperArm")
+
+if rightHand then
+    print("Right hand localizada: " .. rightHand.Name)
+else
+    warn("Right hand part not found.")
+end
+
+-- Remover partículas relacionadas ao "ModelDeath"
+local ModelDeath = game:GetObjects("rbxassetid://12195574482")[1]
+if ModelDeath then
+    for _, a in pairs(ModelDeath.Torso:GetDescendants()) do
+        if a.Name == "Attachment4" or a.Name == "Flare" or a.Name == "Star3" or a.Name == "Bits" then
+            a:Destroy()
+        end
+    end
+    for _, a in pairs(ModelDeath.Torso:GetChildren()) do
+        if a.ClassName == "Attachment" and a:FindFirstChildWhichIsA("ParticleEmitter") then
+            a:Clone().Parent = game.Players.LocalPlayer.Character.Torso
+        end
+    end
+    ModelDeath:Destroy()
+end
+
+-- Deixar o personagem completamente preto com um contorno vermelho
+local function makeCharacterCompletelyBlack()
+    for _, descendant in pairs(character:GetDescendants()) do
+        if descendant:IsA("BasePart") or descendant:IsA("MeshPart") then
+            descendant.Color = Color3.new(0, 0, 0) -- Preto
+            descendant.Material = Enum.Material.SmoothPlastic
+        elseif descendant:IsA("Accessory") and descendant:FindFirstChild("Handle") then
+            local handle = descendant.Handle
+            handle.Color = Color3.new(0, 0, 0)
+            handle.Material = Enum.Material.SmoothPlastic
+        elseif descendant:IsA("Decal") or descendant:IsA("Texture") or descendant:IsA("Clothing") or descendant:IsA("ShirtGraphic") then
+            descendant:Destroy()
+        end
+    end
+
+    local outlineEffect = Instance.new("Highlight")
+    outlineEffect.Parent = character
+    outlineEffect.OutlineColor = Color3.new(1, 0, 0) -- Vermelho
+    outlineEffect.FillTransparency = 1 -- Apenas contorno
+end
+
+makeCharacterCompletelyBlack()
+
 local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
 gui.Parent = player:WaitForChild("PlayerGui")
