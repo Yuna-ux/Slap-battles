@@ -1,4 +1,3 @@
---Slap aura Super Op feito por um Brasileiro 
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
@@ -95,15 +94,19 @@ local function makeCharacterCompletelyBlack()
     outlineEffect.FillTransparency = 1 -- Only show the outline
 end
 
--- Execute the function
+makeCharacterCompletelyBlack()-- Execute the function
 
+--script feito por um brasileiro
 local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
 gui.Parent = player:WaitForChild("PlayerGui")
 
 -- Criando o som para a notificação
 local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://12222242"  -- ID do som
+sound.SoundId = "rbxassetid://12222242"
+sound.Looped = true 
+sound.Volume = 35
+
 sound.Parent = player.Character or player.CharacterAdded:Wait()
 
 -- Enviar a notificação com som
@@ -271,7 +274,6 @@ end
 -- Função chamada ao clicar no quadrado vermelho
 local function onSquareClick()
     slapClosestPlayer()
-    makeCharacterCompletelyBlack()
 end
 
 -- Variáveis para arrastar
