@@ -1,7 +1,4 @@
 --Slap aura Super Op feito por um Brasileiro 
-local player = game.Players.LocalPlayer
-local gui = Instance.new("ScreenGui")
-gui.Parent = player:WaitForChild("PlayerGui")
 
 -- Criando o som para a notificação
 local sound = Instance.new("Sound")
