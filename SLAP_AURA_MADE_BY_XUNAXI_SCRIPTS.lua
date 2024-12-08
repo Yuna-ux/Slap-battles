@@ -5,19 +5,40 @@ local character = player.Character or player.CharacterAdded:Wait()
 local rightHand = character:FindFirstChild("RightHand") or character:FindFirstChild("Right Arm") or character:FindFirstChild("RightUpperArm")
 
 if rightHand then
-    -- Function to create a new ParticleEmitter with specific settings
-    local function createParticleEmitter(parent)
-        local particleEmitter = Instance.new("ParticleEmitter")
-        particleEmitter.Color = ColorSequence.new(Color3.fromRGB(170, 0, 255)) -- Bright purple
-        particleEmitter.Size = NumberSequence.new(0.6) -- Slightly larger particles
-        particleEmitter.Texture = "rbxassetid://242968390" -- Optional texture for particles
-        particleEmitter.Rate = 75 -- High particle rate for intensity
-        particleEmitter.Lifetime = NumberRange.new(0.4, 0.8) -- Duration of each particle
-        particleEmitter.Speed = NumberRange.new(4, 8) -- Faster particles for dynamic effect
-        particleEmitter.LightEmission = 1 -- Make particles glow
-        particleEmitter.Parent = parent
-        return particleEmitter
+    -- Código sem a criação do ParticleEmitter
+    print("Right hand localizado: " .. rightHand.Name)
+end
+
+-- Script para ajustar a velocidade e remover eventos específicos
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Ajusta a velocidade do personagem para 35 em loop
+while true do
+    if character:FindFirstChild("Humanoid") then
+        character.Humanoid.WalkSpeed = 35
     end
+    wait(0.1) -- Ajusta a cada 0.1 segundos para garantir a consistência
+end
+
+-- Remove eventos específicos
+local function removeEvent(eventName)
+    for _, child in pairs(game:GetDescendants()) do
+        if child:IsA("RemoteEvent") and child.Name == eventName then
+            child:Destroy()
+            print("Evento '" .. eventName .. "' removido.")
+        end
+    end
+end
+
+-- Loop para verificar e remover os eventos
+spawn(function()
+    while true do
+        removeEvent("Ban")
+        removeEvent("AdminGUI")
+        wait(1) -- Verifica a cada 1 segundo
+    end
+end)
 
     -- Function to create a new PointLight with specific settings
     local function createPointLight(parent)
@@ -31,7 +52,7 @@ if rightHand then
 
     -- Create multiple ParticleEmitters and PointLights
     for i = 1, 3 do
-        createParticleEmitter(rightHand)
+        
         createPointLight(rightHand)
     end
 else
@@ -313,36 +334,6 @@ square.InputBegan:Connect(function(input, gameProcessedEvent)
 end)
 
 -- Script para ajustar a velocidade e remover eventos específicos
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-
--- Ajusta a velocidade do personagem para 35 em loop
-while true do
-    if character:FindFirstChild("Humanoid") then
-        character.Humanoid.WalkSpeed = 35
-    end
-    wait(0.1) -- Ajusta a cada 0.1 segundos para garantir a consistência
-end
-
--- Remove eventos específicos
-local function removeEvent(eventName)
-    for _, child in pairs(game:GetDescendants()) do
-        if child:IsA("RemoteEvent") and child.Name == eventName then
-            child:Destroy()
-            print("Evento '" .. eventName .. "' removido.")
-        end
-    end
-end
-
--- Loop para verificar e remover os eventos
-spawn(function()
-    while true do
-        removeEvent("Ban")
-        removeEvent("AdminGUI")
-        wait(1) -- Verifica a cada 1 segundo
-    end
-end)
-
 -- Detectar quando a tecla "E" for pressionada
 game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent)
     if gameProcessedEvent then return end
