@@ -175,7 +175,7 @@ letterE.Size = UDim2.new(1, 0, 1, 0)
 letterE.Position = UDim2.new(0, 0, 0, 0)
 letterE.BackgroundTransparency = 1
 letterE.Text = "E"
-letterE.TextColor3 = Color3.fromRGB(169, 169, 169)
+letterE.TextColor3 = Color3.fromRGB(0, 0, 0)
 letterE.TextScaled = true
 letterE.Font = Enum.Font.SourceSansBold
 
@@ -268,7 +268,6 @@ local function slapClosestPlayer()
     -- Dar slap no jogador mais próximo
     if closestPlayer then
         playAnimation()
-        animationTrack:Play()
         local args = {
             [1] = closestPlayer.Character.Head
         }
@@ -347,7 +346,8 @@ end)
 game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent)
     if gameProcessedEvent then return end
     if input.KeyCode == Enum.KeyCode.E then
-        onSquareClick()  -- Chama a função para ativar o botão vermelho
+        onSquareClick()
+        animationTrack:Play()  -- Chama a função para ativar o botão vermelho
     end
 end)
 
