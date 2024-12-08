@@ -104,7 +104,7 @@ gui.Parent = player:WaitForChild("PlayerGui")
 
 -- Criando o som para a notificação
 local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://9044565954",
+sound.SoundId = "rbxassetid://96300753876311",
 sound.Looped = true 
 sound.Volume = 35
 
@@ -126,16 +126,6 @@ sound:Play()
 -- Tocar o som imediatamente após a notificação
 sound:Play()
 
-local button = Instance.new("TextButton")
-button.Size = UDim2.new(0, 75, 0, 75)
-button.Position = UDim2.new(0, 150, 0, 150) -- Center of the screen
-button.AnchorPoint = Vector2.new(0.5, 0.5)
-button.BackgroundColor3 = Color3.new(0, 0, 0) -- Black background
-button.TextColor3 = Color3.new(1, 1, 1) -- White text color
-button.Text = "T"
-button.Font = Enum.Font.SourceSans
-button.TextScaled = true
-button.Parent = screenGui
 
 -- Criando a borda preta (100x100)
 local border = Instance.new("Frame", gui)
