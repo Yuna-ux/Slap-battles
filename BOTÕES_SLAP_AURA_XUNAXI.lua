@@ -55,22 +55,6 @@ buttonY.TextColor3 = Color3.fromRGB(0, 0, 0)
 buttonY.Position = UDim2.new(0, 10, 0, 85)
 buttonY.Parent = frame
 
-local buttonF = Instance.new("TextButton")
-buttonF.Size = UDim2.new(0, 65, 0, 65)
-buttonF.Text = "F"
-buttonF.TextSize = 24
-buttonF.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-buttonF.TextColor3 = Color3.fromRGB(0, 0, 0)
-buttonF.Position = UDim2.new(0, 25, 0, 10)
-buttonF.Parent = frame
-
-local animationId = "rbxassetid://16102535685"
-local animation = Instance.new("Animation")
-animation.AnimationId = animationId
-local character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
-local humanoid = character:WaitForChild("Humanoid")
-local animationTrackF = humanoid:LoadAnimation(animation)
-
 -- Criando o botão "T"
 local buttonT = Instance.new("TextButton")
 buttonT.Size = UDim2.new(0, 65, 0, 65)
