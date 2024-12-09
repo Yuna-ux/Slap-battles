@@ -137,6 +137,23 @@ textBox.PlaceholderText = "Nome da luva será mostrado aqui"
 textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 textBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0, 125, 0, 40)
+button.Position = UDim2.new(1, -160, 0, 10)
+button.AnchorPoint = Vector2.new(1, 0)
+button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+button.TextColor3 = Color3.fromRGB(0, 0, 0)
+button.Text = "GOD MODE V4"
+button.Font = Enum.Font.SourceSansBold
+button.TextScaled = true
+button.Parent = screenGui
+
+button.MouseButton1Click:Connect(function()
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(-5, -5, 15)
+    end
+    end
+
 -- Função para pegar o nome da luva e adicionar "Hit", com exceção de casos específicos
 local function verificarLuva()
     -- Verificar se o jogador tem leaderstats
