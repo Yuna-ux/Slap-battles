@@ -55,7 +55,7 @@ buttonY.TextColor3 = Color3.fromRGB(0, 0, 0)
 buttonY.Position = UDim2.new(0, 10, 0, 85)
 buttonY.Parent = frame
 
-local buttonR = Instance.new("TextButton")
+local buttonF = Instance.new("TextButton")
 buttonF.Size = UDim2.new(0, 65, 0, 65)
 buttonF.Text = "F"
 buttonF.TextSize = 24
