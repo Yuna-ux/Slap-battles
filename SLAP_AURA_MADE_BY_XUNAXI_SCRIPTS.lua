@@ -275,6 +275,11 @@ square.InputBegan:Connect(function(input, gameProcessedEvent)
     end
 end)
 
+game.Workspace.dedBarrier.Position =  Vector3.new(15, -17, 41.5)
+
+game.Workspace.dedBarrier.CanCollide = true
+game.Workspace.TAntiVoid.CanCollide = true 
+
 -- Detectar quando a tecla "E" for pressionada
 game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent)
     if gameProcessedEvent then return end
