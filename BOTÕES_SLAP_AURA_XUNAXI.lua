@@ -4,7 +4,7 @@ local humanoid = character:WaitForChild("Humanoid")
 
 local function setLoopSpeed()
     while true do
-        humanoid.WalkSpeed = 40 -- Define a velocidade para 40
+        humanoid.WalkSpeed = 45 -- Define a velocidade para 40
         wait(0.1) -- Aguarda 0.1 segundos antes de verificar novamente
     end
 end
@@ -99,7 +99,7 @@ local function rollForward()
 end
 
 -- Variáveis para slap aura
-local slapDistance = 30
+local slapDistance = 40
 local slapCooldown = 0.585
 local lastSlapTime = 0
 local slapEnabled = false
@@ -129,7 +129,7 @@ local function slapClosestPlayer()
         local head = closestPlayer.Character:FindFirstChild("Head")
         if head then
             local args = {head}
-            local remote = game.ReplicatedStorage:FindFirstChild("GeneralHit") or ("b") or ("DiamondHit")
+            local remote = game.ReplicatedStorage:FindFirstChild("GeneralHit") or ("b") or ("DiamondHit") or ("ZZZZZZZHit") or ("ReaperHit")
             if remote then
                 remote:FireServer(unpack(args))
             end
@@ -143,7 +143,7 @@ button.Position = UDim2.new(1, -160, 0, 10)
 button.AnchorPoint = Vector2.new(1, 0)
 button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 button.TextColor3 = Color3.fromRGB(0, 0, 0)
-button.Text = "GOD MODE"
+button.Text = "GOD MODE V4"
 button.Font = Enum.Font.SourceSansBold
 button.TextScaled = true
 button.Parent = screenGui
@@ -169,3 +169,9 @@ game:GetService("RunService").RenderStepped:Connect(function()
         slapClosestPlayer()
     end
 end)
+
+game.Workspace.dedBarrier.Position =  Vector3.new(15, -17, 41.5)
+
+game.Workspace.dedBarrier.CanCollide = true
+game.Workspace.TAntiVoid.CanCollide = true
+
