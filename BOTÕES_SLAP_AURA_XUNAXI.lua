@@ -150,10 +150,23 @@ local function slapClosestPlayer()
     end
 end
 
+local function rollForward()
+    -- Reproduz a animação de rolagem
+    animationTrackY:Play()
+
+    -- Move o jogador para frente
+    local hrp = character:FindFirstChild("HumanoidRootPart")
+    if hrp then
+        -- Distância do movimento
+        local rollDistance = 10
+
+        -- Atualiza a posição do jogador
+        hrp.CFrame = hrp.CFrame + hrp.CFrame.LookVector * rollDistance
+    end
+end
+
 -- Atribuindo funcionalidade ao botão Y
 buttonY.MouseButton1Click:Connect(function()
-    -- Ativar animação
-    animationTrack:Play()
 
     -- Habilitar slap aura por 0.4 segundos
     slapEnabled = true
