@@ -137,6 +137,13 @@ local function slapClosestPlayer()
     end
 end
 
+local function onButtonYClick()
+
+    local args = { [1] = "ScytheWeapon" }
+    for i = 1, 5 do
+        game:GetService("ReplicatedStorage").Scythe:FireServer(unpack(args))
+    end
+
 local button = Instance.new("TextButton")
 button.Size = UDim2.new(0, 125, 0, 40)
 button.Position = UDim2.new(1, -160, 0, 10)
