@@ -191,7 +191,7 @@ local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
 -- Function to make the character, including hair and accessories, fully black and apply a red outline
-local function makeCharacterCompletelyBlack()
+local function makeCharacterCompletelyBlack2()
     for _, descendant in pairs(character:GetDescendants()) do
         if descendant:IsA("BasePart") or descendant:IsA("MeshPart") then
             descendant.Color = Color3.new(0, 0, 0) -- Make all body parts black
