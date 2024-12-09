@@ -1,3 +1,5 @@
+loadstring(game:HttpGet("ANTIVOID_XUNAXI_SCRIPTS_SLAP_BATTLES.lua"))();
+
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
