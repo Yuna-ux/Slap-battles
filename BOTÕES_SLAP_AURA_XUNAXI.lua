@@ -1,6 +1,19 @@
+
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
+
+-- Função para ajustar a velocidade constantemente
+local function setLoopSpeed()
+    while true do
+        humanoid.WalkSpeed = 40 -- Define a velocidade para 40
+        wait(0.1) -- Aguarda 0.1 segundos antes de verificar novamente
+    end
+end
+
+-- Executa a função em uma nova thread para manter o loop ativo
+spawn(setLoopSpeed)
+
 
 -- Criando o ScreenGui
 local screenGui = Instance.new("ScreenGui")
