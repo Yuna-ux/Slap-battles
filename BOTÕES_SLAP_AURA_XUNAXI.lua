@@ -55,6 +55,92 @@ buttonY.TextColor3 = Color3.fromRGB(0, 0, 0)
 buttonY.Position = UDim2.new(0, 10, 0, 85)
 buttonY.Parent = frame
 
+local buttonR = Instance.new("TextButton")
+buttonF.Size = UDim2.new(0, 65, 0, 65)
+buttonF.Text = "F"
+buttonF.TextSize = 24
+buttonF.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+buttonF.TextColor3 = Color3.fromRGB(0, 0, 0)
+buttonF.Position = UDim2.new(0, 25, 0, 10)
+buttonF.Parent = frame
+
+local animationId = "rbxassetid://16102535685"
+local animation = Instance.new("Animation")
+animation.AnimationId = animationId
+local character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local animationTrackF = humanoid:LoadAnimation(animation)
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+local slapDistance = 30
+local slapCooldown = 0.585
+local lastSlapTime = 0
+local slapEnabled = false
+local selectedRemote = "GeneralHit"
+
+local function slapClosestPlayer2()
+    if not slapEnabled then return end
+
+    local closestPlayer = nil
+    local closestDistance = slapDistance
+
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        local playerPosition = player.Character.HumanoidRootPart.Position
+
+        for _, otherPlayer in pairs(Players:GetPlayers()) do
+            if otherPlayer ~= player and otherPlayer.Character and otherPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                local otherPlayerPosition = otherPlayer.Character.HumanoidRootPart.Position
+                local distance = (playerPosition - otherPlayerPosition).Magnitude
+
+                if distance <= closestDistance then
+                    closestDistance = distance
+                    closestPlayer = otherPlayer
+                end
+            end
+        end
+
+        if closestPlayer and tick() - lastSlapTime >= slapCooldown then
+            lastSlapTime = tick()
+            if closestPlayer.Character and closestPlayer.Character:FindFirstChild("Head") then
+                local head = closestPlayer.Character.Head
+                local args = {head}
+                local remote = ReplicatedStorage:FindFirstChild(selectedRemote)
+                if remote then
+                    remote:FireServer(unpack(args))
+                else
+                    warn("Remote not found:", selectedRemote)
+                end
+            end
+        end
+    end
+end
+
+local function onButtonClick()
+    animationTrackF:Play()
+
+    local args = { [1] = "ScytheWeapon" }
+    for i = 1, 5 do
+        game:GetService("ReplicatedStorage").Scythe:FireServer(unpack(args))
+    end
+
+    task.wait(0.2)
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    if humanoidRootPart then
+        humanoidRootPart.CFrame = humanoidRootPart.CFrame * CFrame.new(0, 0, -20)
+    end
+
+    task.wait(0.2)
+    slapEnabled = true
+    task.delay(0.3, function()
+        slapEnabled = false
+    end)
+end
+
+buttonF.MouseButton1Click:Connect(function()
+
 -- Criando o botão "T"
 local buttonT = Instance.new("TextButton")
 buttonT.Size = UDim2.new(0, 65, 0, 65)
@@ -105,7 +191,7 @@ local lastSlapTime = 0
 local slapEnabled = false
 
 -- Função para slap no jogador mais próximo
-local function slapClosestPlayer()
+local function slapClosestPlayer2()
     if not slapEnabled then return end
 
     local closestPlayer = nil
@@ -166,7 +252,7 @@ end)
 -- Verifica continuamente para aplicar slap aura
 game:GetService("RunService").RenderStepped:Connect(function()
     if slapEnabled then
-        slapClosestPlayer()
+        slapClosestPlayer2()
     end
 end)
 
