@@ -14,17 +14,22 @@ frame.Position = UDim2.new(1, -90, 0, 40) -- Posicionado no canto superior direi
 frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 frame.Parent = screenGui
 
--- Criando o botão "R"
-local buttonR = Instance.new("TextButton")
-buttonR.Size = UDim2.new(0, 65, 0, 65)
-buttonR.Text = "R"
-buttonR.TextSize = 24
-buttonR.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-buttonR.TextColor3 = Color3.fromRGB(0, 0, 0)
-buttonR.Position = UDim2.new(0, 10, 0, 10)
-buttonR.Parent = frame
+-- Função para criar um botão
+local function createButton(text, position, clickFunction)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(0, 65, 0, 65)
+    button.Text = text
+    button.TextSize = 24
+    button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    button.TextColor3 = Color3.fromRGB(0, 0, 0)
+    button.Position = position
+    button.Parent = frame
+    button.MouseButton1Click:Connect(clickFunction)
+    return button
+end
 
-buttonR.MouseButton1Click:Connect(function()
+-- Função de pulo
+local function jump()
     local originalJumpPower = humanoid.JumpPower
     humanoid.JumpPower = 130
     humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
@@ -33,54 +38,31 @@ buttonR.MouseButton1Click:Connect(function()
 
     local args = {[1] = "fullcharged"}
     game:GetService("ReplicatedStorage").slapstick:FireServer(unpack(args))
-end)
+end
 
--- Criando o botão "Y"
-local buttonY = Instance.new("TextButton")
-buttonY.Size = UDim2.new(0, 65, 0, 65)
-buttonY.Text = "Y"
-buttonY.TextSize = 24
-buttonY.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-buttonY.TextColor3 = Color3.fromRGB(0, 0, 0)
-buttonY.Position = UDim2.new(0, 10, 0, 85)
-buttonY.Parent = frame
-
--- Criando o botão "T"
-local buttonT = Instance.new("TextButton")
-buttonT.Size = UDim2.new(0, 65, 0, 65)
-buttonT.Text = "T"
-buttonT.TextSize = 24
-buttonT.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-buttonT.TextColor3 = Color3.fromRGB(0, 0, 0)
-buttonT.Position = UDim2.new(0, 10, 0, 160)
-buttonT.Parent = frame
-
--- Criando a animação para "T"
-local animationT = Instance.new("Animation")
-animationT.AnimationId = "rbxassetid://16144846625"
-local animationTrackT = humanoid:LoadAnimation(animationT)
-
--- Função para habilidade "T"
-local function activateAbility()
+-- Função para a habilidade "T"
+local function activateTAbility()
+    local animationT = Instance.new("Animation")
+    animationT.AnimationId = "rbxassetid://16144846625"
+    local animationTrackT = humanoid:LoadAnimation(animationT)
     animationTrackT:Play()
+
     local args = {[1] = "Bomb"}
     game:GetService("ReplicatedStorage").RetroAbility:FireServer(unpack(args))
+    
     local hrp = character:FindFirstChild("HumanoidRootPart")
     if hrp then
         hrp.CFrame = hrp.CFrame + hrp.CFrame.LookVector * 30
     end
 end
 
-buttonT.MouseButton1Click:Connect(activateAbility)
-
--- Criando a animação para "Y"
-local animationY = Instance.new("Animation")
-animationY.AnimationId = "rbxassetid://16102413143" -- Substitua pelo ID correto
-local animationTrackY = humanoid:LoadAnimation(animationY)
-
--- Função para rolar para frente
-local function rollForward()
+-- Função para a habilidade "Y"
+local function activateYAbility()
+    local animationY = Instance.new("Animation")
+    animationY.AnimationId = "rbxassetid://16102413143" -- Substitua pelo ID correto
+    local animationTrackY = humanoid:LoadAnimation(animationY)
     animationTrackY:Play()
+
     local hrp = character:FindFirstChild("HumanoidRootPart")
     if hrp then
         local rollDistance = 15
@@ -88,14 +70,13 @@ local function rollForward()
     end
 end
 
--- Variáveis para slap aura
-local slapDistance = 30
-local slapCooldown = 0.585
-local lastSlapTime = 0
-local slapEnabled = false
-
 -- Função para slap no jogador mais próximo
-local function slapClosestPlayer2()
+local function slapClosestPlayer()
+    local slapDistance = 30
+    local slapCooldown = 0.585
+    local lastSlapTime = 0
+    local slapEnabled = true
+
     if not slapEnabled then return end
 
     local closestPlayer = nil
@@ -127,35 +108,25 @@ local function slapClosestPlayer2()
     end
 end
 
--- Evento do botão "Y"
-buttonY.MouseButton1Click:Connect(function()
-    rollForward()
-    slapEnabled = true
-    task.delay(0.4, function()
-        slapEnabled = false
-    end)
-end)
+-- Criando os botões
+local buttonR = createButton("R", UDim2.new(0, 10, 0, 10), jump)
+local buttonY = createButton("Y", UDim2.new(0, 10, 0, 85), activateYAbility)
+local buttonT = createButton("T", UDim2.new(0, 10, 0, 160), activateTAbility)
 
--- Verifica continuamente para aplicar slap aura
-game:GetService("RunService").RenderStepped:Connect(function()
-    if slapEnabled then
-        slapClosestPlayer2()
-     end
-end)
+-- Função para o botão "GOD MODE V4"
+local function toggleGodMode()
+    -- A implementação do "GOD MODE" pode ser colocada aqui
+end
 
-local button = Instance.new("TextButton")
-button.Size = UDim2.new(0, 125, 0, 40)
-button.Position = UDim2.new(1, -160, 0, 10)
-button.AnchorPoint = Vector2.new(1, 0)
-button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-button.TextColor3 = Color3.fromRGB(0, 0, 0)
-button.Text = "GOD MODE V4"
-button.Font = Enum.Font.SourceSansBold
-button.TextScaled = true
-button.Parent = screenGui
-
-button.MouseButton1Click:Connect(function()
-    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        player.Character.HumanoidRootPart.CFrame = CFrame.new(-5, -5, 15)
-    end
-end)
+-- Criando o botão "GOD MODE V4"
+local godModeButton = Instance.new("TextButton")
+godModeButton.Size = UDim2.new(0, 125, 0, 40)
+godModeButton.Position = UDim2.new(1, -160, 0, 10)
+godModeButton.AnchorPoint = Vector2.new(1, 0)
+godModeButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+godModeButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+godModeButton.Text = "GOD MODE V4"
+godModeButton.Font = Enum.Font.SourceSansBold
+godModeButton.TextScaled = true
+godModeButton.Parent = screenGui
+godModeButton.MouseButton1Click:Connect(toggleGodMode)
