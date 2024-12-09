@@ -1,4 +1,6 @@
+
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/ANTIVOID_XUNAXI_SCRIPTS_SLAP_BATTLES.lua"))();
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/BYPASS_ANTICHEAT_SLAP_BATTLES.lua"))();
 
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
@@ -16,6 +18,8 @@ end
 spawn(setLoopSpeed)
 
 -- Localizar a mão direita (se necessário, mantendo a estrutura do código original)
+local rightHalocal player = game.Players.LocalPlayer
+
 local rightHand = character:FindFirstChild("RightHand") or character:FindFirstChild("Right Arm") or character:FindFirstChild("RightUpperArm")
 
 if rightHand then
@@ -66,7 +70,60 @@ makeCharacterCompletelyBlack()
 local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
 gui.Parent = player:WaitForChild("PlayerGui")
-gui.ResetOnSpawn = false  -- Isso impede que a GUI seja destruída quando o personagem morrer ou renascer
+gui.ResetOnSpawn = false -- Isso impede que a GUI seja destruída quando o personagem morrer ou renasce
+
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0, 125, 0, 40)
+button.Position = UDim2.new(1, -160, 0, 10)
+button.AnchorPoint = Vector2.new(1, 0)
+button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+button.TextColor3 = Color3.fromRGB(0, 0, 0)
+button.Text = "GOD MODE V4"
+button.Font = Enum.Font.SourceSansBold
+button.TextScaled = true
+button.Parent = gui
+
+-- Adicionando evento ao botão
+button.MouseButton1Click:Connect(function()
+    local character = player.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        character.HumanoidRootPart.CFrame = CFrame.new(-5, -5, 15)
+    end
+end)
+
+-- Criando o botão TITAN
+local buttonTITAN = Instance.new("TextButton")
+buttonTITAN.Size = UDim2.new(0, 125, 0, 40)
+buttonTITAN.Position = UDim2.new(1, -160, 0, -30)
+buttonTITAN.AnchorPoint = Vector2.new(1, 0)
+buttonTITAN.BackgroundColor3 = Color3.fromRGB(255, 165, 0) -- Laranja
+buttonTITAN.TextColor3 = Color3.fromRGB(0, 0, 0)
+buttonTITAN.Text = "TITAN"
+buttonTITAN.Font = Enum.Font.SourceSansBold
+buttonTITAN.TextScaled = true
+buttonTITAN.Parent = gui -- Certifica-se de que o botão seja filho da ScreenGui existente
+
+-- Adicionando evento ao botão
+buttonTITAN.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/TITAN_GLOVE_GIVER.lua"))()
+end)
+
+-- Adicionando evento ao botão
+button.MouseButton1Click:Connect(function()
+    local character = player.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        character.HumanoidRootPart.CFrame = CFrame.new(-5, -5, 15)
+    end
+end)
+
+-- Ajustando propriedades de "dedBarrier"
+local dedBarrier = game.Workspace:FindFirstChild("dedBarrier")
+if dedBarrier then
+    dedBarrier.Position = Vector3.new(15, -17, 41.5)
+    dedBarrier.CanCollide = true
+else
+    warn("dedBarrier não encontrado no Workspace!")
+end
 
 -- Criando o som para a notificação
 local sound = Instance.new("Sound")
@@ -194,7 +251,6 @@ local function playAnimation()
     end
 end
 
-local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
 
