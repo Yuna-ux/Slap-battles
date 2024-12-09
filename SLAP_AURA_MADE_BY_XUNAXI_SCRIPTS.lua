@@ -1,5 +1,7 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/BOTÕES_SLAP_AURA_XUNAXI.lua"))();
 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/ANTIVOID_XUNAXI_SCRIPTS_SLAP_BATTLES.lua"))();
+
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
@@ -182,7 +184,7 @@ local function playAnimation()
 end
 
 -- Função para encontrar o jogador mais próximo
-local function slapClosestPlayer2()
+local function slapClosestPlayer()
     local closestPlayer
     local shortestDistance = math.huge
 
@@ -225,7 +227,7 @@ end
 
 -- Função chamada ao clicar no quadrado vermelho
 local function onSquareClick()
-    slapClosestPlayer2()  -- Realiza o slap no jogador mais próximo
+    slapClosestPlayer()  -- Realiza o slap no jogador mais próximo
 end
 
 -- Variáveis para arrastar
