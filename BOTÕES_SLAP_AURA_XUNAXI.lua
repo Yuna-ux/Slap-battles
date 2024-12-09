@@ -93,7 +93,7 @@ local function rollForward()
     animationTrackY:Play()
     local hrp = character:FindFirstChild("HumanoidRootPart")
     if hrp then
-        local rollDistance = 10
+        local rollDistance = 15
         hrp.CFrame = hrp.CFrame + hrp.CFrame.LookVector * rollDistance
     end
 end
@@ -129,7 +129,7 @@ local function slapClosestPlayer()
         local head = closestPlayer.Character:FindFirstChild("Head")
         if head then
             local args = {head}
-            local remote = game.ReplicatedStorage:FindFirstChild("GeneralHit")
+            local remote = game.ReplicatedStorage:FindFirstChild("GeneralHit") or ("b") or ("DiamondHit")
             if remote then
                 remote:FireServer(unpack(args))
             end
