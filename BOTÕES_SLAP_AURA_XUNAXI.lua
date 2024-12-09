@@ -2,14 +2,14 @@ local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
 
-local function setLoopSpeed()
-    while true do
-        humanoid.WalkSpeed = 45 -- Define a velocidade para 40
-        wait(0.1) -- Aguarda 0.1 segundos antes de verificar novamente
-    end
-end
+local humanoid = nil
 
-setLoopSpeed()
+character:WaitForChild("Humanoid", 5).AncestryChanged:Connect(function()
+    humanoid = character:FindFirstChild("Humanoid")
+    if humanoid then
+        humanoid.WalkSpeed = 45
+    end
+end)
 
 -- Criando o ScreenGui
 local screenGui = Instance.new("ScreenGui")
