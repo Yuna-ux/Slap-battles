@@ -2,15 +2,6 @@ local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
 
-local humanoid = nil
-
-character:WaitForChild("Humanoid", 5).AncestryChanged:Connect(function()
-    humanoid = character:FindFirstChild("Humanoid")
-    if humanoid then
-        humanoid.WalkSpeed = 45
-    end
-end)
-
 -- Criando o ScreenGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "MyScreenGui"
