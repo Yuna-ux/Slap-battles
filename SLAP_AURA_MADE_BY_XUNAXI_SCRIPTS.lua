@@ -1,3 +1,4 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/BOTÕES_SLAP_AURA_XUNAXI.lua"))();
 
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
@@ -56,8 +57,7 @@ gui.Parent = player:WaitForChild("PlayerGui")
 
 -- Criando o som para a notificação
 local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://74499492757133"
-sound.Looped = true
+sound.SoundId = "rbxassetid://74499492757133"  -- ID do som
 sound.Parent = player.Character or player.CharacterAdded:Wait()
 
 -- Enviar a notificação com som
@@ -173,7 +173,7 @@ local function playAnimation()
 end
 
 -- Função para encontrar o jogador mais próximo
-local function slapClosestPlayer2()
+local function slapClosestPlayer()
     local closestPlayer
     local shortestDistance = math.huge
 
@@ -216,7 +216,7 @@ end
 
 -- Função chamada ao clicar no quadrado vermelho
 local function onSquareClick()
-    slapClosestPlayer2()  -- Realiza o slap no jogador mais próximo
+    slapClosestPlayer()  -- Realiza o slap no jogador mais próximo
 end
 
 -- Variáveis para arrastar
@@ -264,9 +264,6 @@ square.InputBegan:Connect(function(input, gameProcessedEvent)
         onSquareClick()  -- Chama a função para ativar a animação
     end
 end)
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/BOTÕES_SLAP_AURA_XUNAXI.lua"))();
-
 
 -- Detectar quando a tecla "E" for pressionada
 game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent)
