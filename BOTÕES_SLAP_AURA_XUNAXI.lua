@@ -1,9 +1,7 @@
-
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
 
--- Função para ajustar a velocidade constantemente
 local function setLoopSpeed()
     while true do
         humanoid.WalkSpeed = 40 -- Define a velocidade para 40
@@ -13,7 +11,6 @@ end
 
 -- Executa a função em uma nova thread para manter o loop ativo
 spawn(setLoopSpeed)
-
 
 -- Criando o ScreenGui
 local screenGui = Instance.new("ScreenGui")
@@ -96,7 +93,7 @@ local function rollForward()
     animationTrackY:Play()
     local hrp = character:FindFirstChild("HumanoidRootPart")
     if hrp then
-        local rollDistance = 20
+        local rollDistance = 10
         hrp.CFrame = hrp.CFrame + hrp.CFrame.LookVector * rollDistance
     end
 end
@@ -140,22 +137,6 @@ local function slapClosestPlayer()
     end
 end
 
--- Evento do botão "Y"
-buttonY.MouseButton1Click:Connect(function()
-    rollForward()
-    slapEnabled = true
-    task.delay(0.4, function()
-        slapEnabled = false
-    end)
-end)
-
--- Verifica continuamente para aplicar slap aura
-game:GetService("RunService").RenderStepped:Connect(function()
-    if slapEnabled then
-        slapClosestPlayer()
-    end
-end)
-
 local button = Instance.new("TextButton")
 button.Size = UDim2.new(0, 125, 0, 40)
 button.Position = UDim2.new(1, -160, 0, 10)
@@ -170,5 +151,21 @@ button.Parent = screenGui
 button.MouseButton1Click:Connect(function()
     if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
         player.Character.HumanoidRootPart.CFrame = CFrame.new(-5, -5, 15)
+    end
+end)
+
+-- Evento do botão "Y"
+buttonY.MouseButton1Click:Connect(function()
+    rollForward()
+    slapEnabled = true
+    task.delay(0.4, function()
+        slapEnabled = false
+    end)
+end)
+
+-- Verifica continuamente para aplicar slap aura
+game:GetService("RunService").RenderStepped:Connect(function()
+    if slapEnabled then
+        slapClosestPlayer()
     end
 end)
