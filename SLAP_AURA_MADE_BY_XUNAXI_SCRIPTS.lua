@@ -1,6 +1,4 @@
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/BOTÕES_SLAP_AURA_XUNAXI.lua"))();
-
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
@@ -266,6 +264,9 @@ square.InputBegan:Connect(function(input, gameProcessedEvent)
         onSquareClick()  -- Chama a função para ativar a animação
     end
 end)
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/BOTÕES_SLAP_AURA_XUNAXI.lua"))();
+
 
 -- Detectar quando a tecla "E" for pressionada
 game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessedEvent)
