@@ -183,7 +183,7 @@ local function playAnimation()
 end
 
 -- Função para encontrar o jogador mais próximo
-local function slapClosestPlayer()
+local function slapClosestPlayer2()
     local closestPlayer
     local shortestDistance = math.huge
 
@@ -226,7 +226,7 @@ end
 
 -- Função chamada ao clicar no quadrado vermelho
 local function onSquareClick()
-    slapClosestPlayer()  -- Realiza o slap no jogador mais próximo
+    slapClosestPlayer2()  -- Realiza o slap no jogador mais próximo
 end
 
 -- Variáveis para arrastar
