@@ -2,15 +2,6 @@ local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
 
-local function setLoopSpeed()
-    while true do
-        humanoid.WalkSpeed = 45 -- Define a velocidade para 40
-        wait(0.1) -- Aguarda 0.1 segundos antes de verificar novamente
-    end
-end
-
-setLoopSpeed()
-
 -- Criando o ScreenGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "MyScreenGui"
@@ -92,7 +83,7 @@ local function rollForward()
     animationTrackY:Play()
     local hrp = character:FindFirstChild("HumanoidRootPart")
     if hrp then
-        local rollDistance = 10
+        local rollDistance = 15
         hrp.CFrame = hrp.CFrame + hrp.CFrame.LookVector * rollDistance
     end
 end
@@ -104,7 +95,7 @@ local lastSlapTime = 0
 local slapEnabled = false
 
 -- Função para slap no jogador mais próximo
-local function slapClosestPlayer()
+local function slapClosestPlayer2()
     if not slapEnabled then return end
 
     local closestPlayer = nil
@@ -148,7 +139,7 @@ end)
 -- Verifica continuamente para aplicar slap aura
 game:GetService("RunService").RenderStepped:Connect(function()
     if slapEnabled then
-        slapClosestPlayer()
+        slapClosestPlayer2()
      end
 end)
 
