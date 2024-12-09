@@ -72,6 +72,14 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
     Duration = 15,
 })
 
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "Carregado! espere 1 Segundo.",
+    Icon = "rbxassetid://115726632148815",
+    Text = "😀",
+    Button1 = "OK",
+    Duration = 15,
+})
+
 -- Tocar o som imediatamente após a notificação
 sound:Play()
 
