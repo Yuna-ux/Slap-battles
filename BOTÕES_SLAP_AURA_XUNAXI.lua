@@ -96,7 +96,7 @@ local function rollForward()
     animationTrackY:Play()
     local hrp = character:FindFirstChild("HumanoidRootPart")
     if hrp then
-        local rollDistance = 10
+        local rollDistance = 20
         hrp.CFrame = hrp.CFrame + hrp.CFrame.LookVector * rollDistance
     end
 end
