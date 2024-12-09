@@ -68,20 +68,6 @@ buttonT.TextColor3 = Color3.fromRGB(0, 0, 0)
 buttonT.Position = UDim2.new(0, 10, 0, 160)
 buttonT.Parent = frame
 
--- Criando o botão "F"
-local buttonF = Instance.new("TextButton")
-buttonF.Size = UDim2.new(0, 65, 0, 65)
-buttonF.Text = "F"
-buttonF.TextSize = 24
-buttonF.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-buttonF.TextColor3 = Color3.fromRGB(0, 0, 0)
-buttonF.Position = UDim2.new(0, 10, 0, 235) -- Ajustado para ficar abaixo do botão "T"
-buttonF.Parent = frame
-
-buttonF.MouseButton1Click:Connect(function()
-    print("Botão F ativado! Defina aqui sua funcionalidade.")
-end)
-
 -- Criando a animação para "T"
 local animationT = Instance.new("Animation")
 animationT.AnimationId = "rbxassetid://16144846625"
@@ -186,35 +172,3 @@ button.MouseButton1Click:Connect(function()
         player.Character.HumanoidRootPart.CFrame = CFrame.new(-5, -5, 15)
     end
 end)
-
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-
--- Function to make the character, including hair and accessories, fully black and apply a red outline
-local function makeCharacterCompletelyBlack2()
-    for _, descendant in pairs(character:GetDescendants()) do
-        if descendant:IsA("BasePart") or descendant:IsA("MeshPart") then
-            descendant.Color = Color3.new(0, 0, 0) -- Make all body parts black
-            descendant.Material = Enum.Material.SmoothPlastic
-        elseif descendant:IsA("Accessory") then
-            if descendant:FindFirstChild("Handle") then
-                -- Turn the handle of the accessory black
-                descendant.Handle.Color = Color3.new(0, 0, 0)
-                descendant.Handle.Material = Enum.Material.SmoothPlastic
-
-                -- Check for meshes or textures in the accessory's handle
-                for _, child in pairs(descendant.Handle:GetDescendants()) do
-                    if child:IsA("MeshPart") or child:IsA("Part") or child:IsA("UnionOperation") then
-                        child.Color = Color3.new(0, 0, 0)
-                        child.Material = Enum.Material.SmoothPlastic
-                    elseif child:IsA("SpecialMesh") then
-                        child.TextureId = "" -- Remove texture for a uniform color
-                    end
-                end
-            end
-        elseif descendant:IsA("Decal") or descendant:IsA("Texture") then
-            descendant:Destroy() -- Remove decals and textures
-        elseif descendant:IsA("Clothing") or descendant:IsA("ShirtGraphic") then
-            descendant:Destroy() -- Remove clothing to keep the body fully black
-        end
-    end
