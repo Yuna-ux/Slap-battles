@@ -2,6 +2,20 @@ local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
 
+game.Workspace.dedBarrier.Position =  Vector3.new(15, -17, 41.5)
+
+game.Workspace.dedBarrier.CanCollide = true
+game.Workspace.TAntiVoid.CanCollide = true
+
+local function setLoopSpeed()
+    while true do
+        humanoid.WalkSpeed = 45 -- Define a velocidade para 40
+        wait(0.1) -- Aguarda 0.1 segundos antes de verificar novamente
+    end
+end
+
+setLoopSpeed()
+
 -- Criando o ScreenGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "MyScreenGui"
