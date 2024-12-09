@@ -66,6 +66,7 @@ makeCharacterCompletelyBlack()
 local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
 gui.Parent = player:WaitForChild("PlayerGui")
+gui.ResetOnSpawn = false  -- Isso impede que a GUI seja destruída quando o personagem morrer ou renascer
 
 -- Criando o som para a notificação
 local sound = Instance.new("Sound")
