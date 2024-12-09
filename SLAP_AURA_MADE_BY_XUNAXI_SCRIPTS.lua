@@ -57,8 +57,8 @@ gui.Parent = player:WaitForChild("PlayerGui")
 
 -- Criando o som para a notificação
 local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://74499492757133"  -- ID do som
-sound.Looped = true 
+sound.SoundId = "rbxassetid://74499492757133"   -- ID do som
+sound.Looped = true
 sound.Parent = player.Character or player.CharacterAdded:Wait()
 
 -- Enviar a notificação com som
@@ -74,10 +74,11 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 game:GetService("StarterGui"):SetCore("SendNotification", {
     Title = "Carregado! espere 1 Segundo.",
     Icon = "rbxassetid://115726632148815",
-    Text = "😀",
+    Text = "📜",
     Button1 = "OK",
     Duration = 15,
 })
+
 -- Tocar o som imediatamente após a notificação
 sound:Play()
 
@@ -181,7 +182,7 @@ local function playAnimation()
 end
 
 -- Função para encontrar o jogador mais próximo
-local function slapClosestPlayer()
+local function slapClosestPlayer2()
     local closestPlayer
     local shortestDistance = math.huge
 
@@ -224,7 +225,7 @@ end
 
 -- Função chamada ao clicar no quadrado vermelho
 local function onSquareClick()
-    slapClosestPlayer()  -- Realiza o slap no jogador mais próximo
+    slapClosestPlayer2()  -- Realiza o slap no jogador mais próximo
 end
 
 -- Variáveis para arrastar
@@ -286,20 +287,3 @@ while true do
     verificarLuva()  -- Atualiza o nome da luva com "Hit"
     wait(2)  -- Espera 2 segundos antes de atualizar novamente
 end
-
-local button = Instance.new("TextButton")
-button.Size = UDim2.new(0, 125, 0, 40)
-button.Position = UDim2.new(1, -160, 0, 10)
-button.AnchorPoint = Vector2.new(1, 0)
-button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-button.TextColor3 = Color3.fromRGB(0, 0, 0)
-button.Text = "GOD MODE V4"
-button.Font = Enum.Font.SourceSansBold
-button.TextScaled = true
-button.Parent = screenGui
-
-button.MouseButton1Click:Connect(function()
-    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        player.Character.HumanoidRootPart.CFrame = CFrame.new(-5, -5, 15)
-    end
-end)
