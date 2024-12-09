@@ -193,6 +193,80 @@ local function playAnimation()
     end
 end
 
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- IDs das animações
+local idleAnimationId = "rbxassetid://16163355836"  -- Ficar parado
+local walkAnimationId = "rbxassetid://16163350920"  -- Andar
+local customAnimationId = "rbxassetid://17670135152"  -- A animação personalizada
+
+-- Criando as animações
+local idleAnimation = Instance.new("Animation")
+idleAnimation.AnimationId = idleAnimationId
+local walkAnimation = Instance.new("Animation")
+walkAnimation.AnimationId = walkAnimationId
+local customAnimation = Instance.new("Animation")
+customAnimation.AnimationId = customAnimationId
+
+-- Carregando as animações
+local idleTrack = humanoid:LoadAnimation(idleAnimation)
+local walkTrack = humanoid:LoadAnimation(walkAnimation)
+local customTrack = humanoid:LoadAnimation(customAnimation)
+
+-- Função para alternar entre as animações
+local function updateAnimation()
+    -- Verifica se a animação personalizada está em execução
+    if customTrack.IsPlaying then
+        -- Se a animação personalizada estiver tocando, desativa as outras animações
+        if walkTrack.IsPlaying then
+            walkTrack:Stop()
+        end
+        if idleTrack.IsPlaying then
+            idleTrack:Stop()
+        end
+        return
+    end
+    
+    if humanoid.MoveDirection.Magnitude > 0 then
+        -- Jogador está se movendo, tocar animação de andar
+        if not walkTrack.IsPlaying then
+            walkTrack:Play()
+        end
+        if idleTrack.IsPlaying then
+            idleTrack:Stop()
+        end
+    else
+        -- Jogador não está se movendo, tocar animação de ficar parado
+        if not idleTrack.IsPlaying then
+            idleTrack:Play()
+        end
+        if walkTrack.IsPlaying then
+            walkTrack:Stop()
+        end
+    end
+end
+
+-- Atualizando a função playAnimation() para garantir que a animação personalizada seja tocada
+local function playAnimation()
+    -- Se a animação personalizada não estiver tocando, começa a tocá-la
+    if not customTrack.IsPlaying then
+        -- Parar as animações de andar e ficar parado
+        if walkTrack.IsPlaying then
+            walkTrack:Stop()
+        end
+        if idleTrack.IsPlaying then
+            idleTrack:Stop()
+        end
+        -- Iniciar a animação personalizada
+        customTrack:Play()
+    end
+end
+
+-- Chamando a função de animação a cada frame para verificar a movimentação do jogador
+game:GetService("RunService").Heartbeat:Connect(updateAnimation)
+
 -- Função para encontrar o jogador mais próximo
 local function slapClosestPlayer2()
     local closestPlayer
@@ -239,84 +313,6 @@ end
 local function onSquareClick()
     slapClosestPlayer2()  -- Realiza o slap no jogador mais próximo
 end
-
--- IDs das animações
-local idleAnimationId = "rbxassetid://16163355836"  -- Ficar parado --inicio do código.
-local walkAnimationId = "rbxassetid://16163350920"  -- Andar
-local buttonAnimationId = "rbxassetid://16144846625" -- Animação do botão vermelho (substitua pelo ID correto)
-
--- Criando as animações
-local idleAnimation = Instance.new("Animation")
-idleAnimation.AnimationId = idleAnimationId
-local walkAnimation = Instance.new("Animation")
-walkAnimation.AnimationId = walkAnimationId
-local buttonAnimation = Instance.new("Animation")
-buttonAnimation.AnimationId = buttonAnimationId
-
--- Carregando as animações
-local idleTrack = humanoid:LoadAnimation(idleAnimation)
-local walkTrack = humanoid:LoadAnimation(walkAnimation)
-local buttonTrack = humanoid:LoadAnimation(buttonAnimation)
-
--- Variável para verificar se a animação do botão está sendo tocada
-local isButtonAnimationPlaying = false
-
--- Função para alternar entre as animações
-local function updateAnimation()
-    if isButtonAnimationPlaying then
-        -- Se a animação do botão estiver em execução, não faz nada (evita interrupção)
-        return
-    end
-    
-    if humanoid.MoveDirection.Magnitude > 0 then
-        -- Jogador está se movendo, tocar animação de andar
-        if not walkTrack.IsPlaying then
-            walkTrack:Play()
-        end
-        if idleTrack.IsPlaying then
-            idleTrack:Stop()
-        end
-    else
-        -- Jogador não está se movendo, tocar animação de ficar parado
-        if not idleTrack.IsPlaying then
-            idleTrack:Play()
-        end
-        if walkTrack.IsPlaying then
-            walkTrack:Stop() --final do código quase
-        end
-    end
-end
-
--- Função para ativar a animação do botão vermelho
-local function onSquareClick()
-    if not buttonTrack.IsPlaying then
-        -- Marcar que a animação do botão está em execução
-        isButtonAnimationPlaying = true
-        buttonTrack:Play()
-        
-        -- Parar as outras animações enquanto a animação do botão está em execução
-        if walkTrack.IsPlaying then
-            walkTrack:Stop()
-        end
-        if idleTrack.IsPlaying then
-            idleTrack:Stop()
-        end
-        
-        -- Espera a animação do botão terminar e volta para o estado normal
-        buttonTrack.Stopped:Wait()
-        isButtonAnimationPlaying = false
-        updateAnimation()  -- Retorna para a animação de andar ou ficar parado
-    end
-end
-
--- Conectando a função ao botão (já existente)
--- Assumindo que o botão já tenha uma função de clique associada a ele
-local square = --[coloque o caminho para o botão existente aqui]
-square.MouseButton1Click:Connect(onSquareClick)
-
--- Chamando a função de animação a cada frame para verificar a movimentação do jogador
-game:GetService("RunService").Heartbeat:Connect(updateAnimation)
-
 
 -- Variáveis para arrastar
 local dragging = false
