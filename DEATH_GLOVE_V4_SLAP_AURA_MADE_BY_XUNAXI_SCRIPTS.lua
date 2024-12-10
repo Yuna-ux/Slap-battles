@@ -119,6 +119,42 @@ buttonTITAN.MouseButton1Click:Connect(function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/TITAN_GLOVE_GIVER.lua"))()
 end)
 
+local buttonT = Instance.new("TextButton")
+buttonT.Size = UDim2.new(0, 65, 0, 65) -- Tamanho 65x65
+buttonT.Text = "T"
+buttonT.AnchorPoint = Vector2.new(1, 0)
+buttonT.TextSize = 24 -- Define o tamanho da fonte como 24
+buttonT.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+buttonT.TextColor3 = Color3.fromRGB(0, 0, 0) -- Cor do texto
+buttonT.Position = UDim2.new(1, -80, 0, 100) -- Posicionado abaixo do botão "Y"
+buttonT.Parent = gui
+
+-- Criando a animação
+local animation = Instance.new("Animation")
+animation.AnimationId = "rbxassetid://16144846625"
+local animationTrack = humanoid:LoadAnimation(animation)
+
+-- Função para ativar a habilidade e animação
+local function activateAbility()
+    -- Reproduz a animação
+    animationTrack:Play()
+
+    -- Envia a habilidade para o servidor
+    local args = {
+        [1] = "Bomb"
+    }
+    game:GetService("ReplicatedStorage").RetroAbility:FireServer(unpack(args))
+
+    -- Move o personagem para frente
+    local hrp = character:FindFirstChild("HumanoidRootPart")
+    if hrp then
+        hrp.CFrame = hrp.CFrame + hrp.CFrame.LookVector * 30
+    end
+end
+
+-- Conectando o evento de clique do botão "T"
+buttonT.MouseButton1Click:Connect(activateAbility)
+
 local isInvisible = false -- Variável para rastrear o estado de invisibilidade
 
 local buttonGHOST = Instance.new("TextButton")
@@ -196,6 +232,27 @@ buttonGOD.MouseButton1Click:Connect(function()
     if character and character:FindFirstChild("HumanoidRootPart") then
         character.HumanoidRootPart.CFrame = CFrame.new(-5, -5, 15)
     end
+end)
+
+local buttonR = Instance.new("TextButton")
+buttonR.Size = UDim2.new(0, 65, 0, 65)
+buttonR.Text = "R"
+buttonR.TextSize = 24
+buttonR.AnchorPoint = Vector2.new(1, 0)
+buttonR.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+buttonR.TextColor3 = Color3.fromRGB(0, 0, 0)
+buttonR.Position = UDim2.new(1, -80, 0, 165)
+buttonR.Parent = gui
+
+-- A função que será executada quando o botão for pressionado
+buttonR.MouseButton1Click:Connect(function()
+    -- Definindo o JumpPower do humanoide
+    humanoid.JumpPower = 90
+    humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+    
+    -- Enviando os argumentos para o evento no ReplicatedStorage
+    local args = { [1] = "fullcharged" }
+    game:GetService("ReplicatedStorage").slapstick:FireServer(unpack(args))
 end)
 
 -- Ajustando propriedades de "dedBarrier"
