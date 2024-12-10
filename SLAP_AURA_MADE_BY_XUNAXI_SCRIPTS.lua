@@ -1,4 +1,3 @@
-
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/ANTIVOID_XUNAXI_SCRIPTS_SLAP_BATTLES.lua"))();
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/BYPASS_ANTICHEAT_SLAP_BATTLES.lua"))();
 
@@ -91,6 +90,8 @@ button.MouseButton1Click:Connect(function()
     end
 end)
 
+
+
 -- Criando o botão TITAN
 local buttonTITAN = Instance.new("TextButton")
 buttonTITAN.Size = UDim2.new(0, 125, 0, 40)
@@ -106,6 +107,77 @@ buttonTITAN.Parent = gui -- Certifica-se de que o botão seja filho da ScreenGui
 -- Adicionando evento ao botão
 buttonTITAN.MouseButton1Click:Connect(function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/TITAN_GLOVE_GIVER.lua"))()
+end)
+
+local isInvisible = false -- Variável para rastrear o estado de invisibilidade
+
+local buttonGHOST = Instance.new("TextButton")
+buttonGHOST.Size = UDim2.new(0, 125, 0, 40)
+buttonGHOST.Position = UDim2.new(1, -160, 0, 50)
+buttonGHOST.AnchorPoint = Vector2.new(1, 0)
+buttonGHOST.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+buttonGHOST.TextColor3 = Color3.fromRGB(0, 0, 0)
+buttonGHOST.Text = "INVISIBILIDADE"
+buttonGHOST.Font = Enum.Font.SourceSansBold
+buttonGHOST.TextScaled = true
+buttonGHOST.Parent = gui
+
+-- Função para verificar se o jogador já está com a luva "Ghost"
+local function hasGhostGlove()
+    local player = game.Players.LocalPlayer
+    local leaderstats = player:FindFirstChild("leaderstats")
+    if leaderstats then
+        local glove = leaderstats:FindFirstChild("glove")
+        if glove and glove.Value == "Ghost" then
+            return true
+        end
+    end
+    return false
+end
+
+-- Função para ativar o script adicional
+local function activateScript()
+    for i, v in pairs(game:GetService("ReplicatedStorage")._NETWORK:GetChildren()) do
+        -- Verifica se o nome contém o caractere '{'
+        if v.Name:find("{") then
+            local args = {
+                [1] = "Ghost"
+            }
+
+            -- Verifica se v é um RemoteEvent e pode chamar FireServer
+            if v:IsA("RemoteEvent") then
+                v:FireServer(unpack(args))
+            elseif v:IsA("RemoteFunction") then
+                -- Se for um RemoteFunction, usa InvokeServer
+                local result = v:InvokeServer(unpack(args))
+                print("Resultado do InvokeServer:", result)  -- Opcional: Imprime o resultado
+            else
+                print("v não é nem um RemoteEvent nem um RemoteFunction.")
+            end
+        end
+    end
+end
+
+-- Adicionando evento ao botão
+buttonGHOST.MouseButton1Click:Connect(function()
+    -- Verifica se o jogador já tem a luva "Ghost"
+    if not hasGhostGlove() then
+        -- Ativa o script adicional se o jogador não estiver com a luva "Ghost"
+        activateScript()
+    end
+
+    if not isInvisible then
+        -- Ativa a invisibilidade
+        game:GetService("ReplicatedStorage").Ghostinvisibilityactivated:FireServer()
+        buttonGHOST.Text = "VISIBILIDADE" -- Altera o texto do botão
+        buttonGHOST.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Altera a cor do botão para verde
+    else
+        -- Desativa a invisibilidade
+        game:GetService("ReplicatedStorage").Ghostinvisibilitydeactivated:FireServer()
+        buttonGHOST.Text = "INVISIBILIDADE" -- Restaura o texto do botão
+        buttonGHOST.BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- Altera a cor do botão para vermelho
+    end
+    isInvisible = not isInvisible -- Alterna o estado
 end)
 
 -- Adicionando evento ao botão
