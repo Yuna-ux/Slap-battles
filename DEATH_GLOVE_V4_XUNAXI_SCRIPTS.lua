@@ -1,5 +1,5 @@
 -- Verificando o ID da Place antes de executar o loadstring
-if game.PlaceId == 6403373529 or game.PlaceId == 9015014224 then
+if game.PlaceId == 6403373529 or game.PlaceId == 9015014224 or game.PlaceId == 11520107397 then
     -- Carregando e executando o script apenas se o ID da Place for válido
     loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/DEATH_GLOVE_V4_SLAP_AURA_MADE_BY_XUNAXI_SCRIPTS.lua"))()
 else
