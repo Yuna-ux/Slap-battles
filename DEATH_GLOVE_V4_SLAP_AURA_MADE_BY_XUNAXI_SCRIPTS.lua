@@ -1,4 +1,16 @@
+
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "Carregando o script! espere.",
+    Icon = "rbxassetid://115726632148815",
+    Text = "Script",
+    Button1 = "OK",
+    Duration = 7,
+})
+
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/ANTIVOID_XUNAXI_SCRIPTS_SLAP_BATTLES.lua"))();
+
+wait(0.4)
+
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/BYPASS_ANTICHEAT_SLAP_BATTLES.lua"))();
 
 local player = game.Players.LocalPlayer
@@ -64,38 +76,36 @@ local function makeCharacterCompletelyBlack()
     outlineEffect.FillTransparency = 1 -- Apenas contorno
 end
 
-makeCharacterCompletelyBlack()
-
 local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
 gui.Parent = player:WaitForChild("PlayerGui")
 gui.ResetOnSpawn = false -- Isso impede que a GUI seja destruída quando o personagem morrer ou renasce
 
-local button = Instance.new("TextButton")
-button.Size = UDim2.new(0, 125, 0, 40)
-button.Position = UDim2.new(1, -160, 0, 10)
-button.AnchorPoint = Vector2.new(1, 0)
-button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-button.TextColor3 = Color3.fromRGB(0, 0, 0)
-button.Text = "GOD MODE V4"
-button.Font = Enum.Font.SourceSansBold
-button.TextScaled = true
-button.Parent = gui
+makeCharacterCompletelyBlack()
+
+local buttonGOD = Instance.new("TextButton")
+buttonGOD.Size = UDim2.new(0, 125, 0, 40)
+buttonGOD.Position = UDim2.new(1, -100, 0, 10)
+buttonGOD.AnchorPoint = Vector2.new(1, 0)
+buttonGOD.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+buttonGOD.TextColor3 = Color3.fromRGB(0, 0, 0)
+buttonGOD.Text = "GOD MODE V4"
+buttonGOD.Font = Enum.Font.SourceSansBold
+buttonGOD.TextScaled = true
+buttonGOD.Parent = gui
 
 -- Adicionando evento ao botão
-button.MouseButton1Click:Connect(function()
+buttonGOD.MouseButton1Click:Connect(function()
     local character = player.Character
     if character and character:FindFirstChild("HumanoidRootPart") then
         character.HumanoidRootPart.CFrame = CFrame.new(-5, -5, 15)
     end
 end)
 
-
-
 -- Criando o botão TITAN
 local buttonTITAN = Instance.new("TextButton")
 buttonTITAN.Size = UDim2.new(0, 125, 0, 40)
-buttonTITAN.Position = UDim2.new(1, -160, 0, -30)
+buttonTITAN.Position = UDim2.new(1, -100, 0, -30)
 buttonTITAN.AnchorPoint = Vector2.new(1, 0)
 buttonTITAN.BackgroundColor3 = Color3.fromRGB(255, 165, 0) -- Laranja
 buttonTITAN.TextColor3 = Color3.fromRGB(0, 0, 0)
@@ -113,7 +123,7 @@ local isInvisible = false -- Variável para rastrear o estado de invisibilidade
 
 local buttonGHOST = Instance.new("TextButton")
 buttonGHOST.Size = UDim2.new(0, 125, 0, 40)
-buttonGHOST.Position = UDim2.new(1, -160, 0, 50)
+buttonGHOST.Position = UDim2.new(1, -100, 0, 50)
 buttonGHOST.AnchorPoint = Vector2.new(1, 0)
 buttonGHOST.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 buttonGHOST.TextColor3 = Color3.fromRGB(0, 0, 0)
@@ -181,7 +191,7 @@ buttonGHOST.MouseButton1Click:Connect(function()
 end)
 
 -- Adicionando evento ao botão
-button.MouseButton1Click:Connect(function()
+buttonGOD.MouseButton1Click:Connect(function()
     local character = player.Character
     if character and character:FindFirstChild("HumanoidRootPart") then
         character.HumanoidRootPart.CFrame = CFrame.new(-5, -5, 15)
@@ -261,7 +271,7 @@ letterE.Font = Enum.Font.SourceSansBold
 -- Criando a TextBox para o jogador escolher qual evento será chamado
 local textBox = Instance.new("TextBox", gui)
 textBox.Size = UDim2.new(0, 200, 0, 50)
-textBox.Position = UDim2.new(0, 0, 0, 180)
+textBox.Position = UDim2.new(0, 0, 0, 280)
 textBox.PlaceholderText = "Nome da luva será mostrado aqui"
 textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 textBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
@@ -323,75 +333,96 @@ local function playAnimation()
     end
 end
 
+local player = game.Players.LocalPlayer -- Obtenção do jogador local
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
 
 -- IDs das animações
-local idleAnimationId = "rbxassetid://16163355836"  -- Ficar parado
-local walkAnimationId = "rbxassetid://16163350920"  -- Andar
-local customAnimationId = "rbxassetid://17670135152"  -- A animação personalizada
+local idleAnimationId = "rbxassetid://16163355836" -- Ficar parado
+local walkAnimationId = "rbxassetid://16163350920" -- Andar
+local jumpAnimationId = "rbxassetid://180435571"   -- Pulo
 
 -- Criando as animações
 local idleAnimation = Instance.new("Animation")
 idleAnimation.AnimationId = idleAnimationId
 local walkAnimation = Instance.new("Animation")
 walkAnimation.AnimationId = walkAnimationId
-local customAnimation = Instance.new("Animation")
-customAnimation.AnimationId = customAnimationId
+local jumpAnimation = Instance.new("Animation")
+jumpAnimation.AnimationId = jumpAnimationId
 
 -- Carregando as animações
 local idleTrack = humanoid:LoadAnimation(idleAnimation)
 local walkTrack = humanoid:LoadAnimation(walkAnimation)
-local customTrack = humanoid:LoadAnimation(customAnimation)
+local jumpTrack = humanoid:LoadAnimation(jumpAnimation)
+
+-- Variável de rastreamento para a animação personalizada
+local customTrack = nil -- Será definida quando a animação personalizada for tocada
+
+-- Função para parar todas as animações (exceto a personalizada)
+local function stopOtherAnimations()
+    if walkTrack.IsPlaying then walkTrack:Stop() end
+    if idleTrack.IsPlaying then idleTrack:Stop() end
+    if jumpTrack.IsPlaying then jumpTrack:Stop() end
+end
+
+-- Monitorar o status da animação personalizada
+local function monitorCustomAnimation()
+    if customTrack and customTrack.IsPlaying then
+        stopOtherAnimations()
+    end
+end
 
 -- Função para alternar entre as animações
 local function updateAnimation()
-    -- Verifica se a animação personalizada está em execução
-    if customTrack.IsPlaying then
-        -- Se a animação personalizada estiver tocando, desativa as outras animações
-        if walkTrack.IsPlaying then
-            walkTrack:Stop()
-        end
-        if idleTrack.IsPlaying then
-            idleTrack:Stop()
-        end
-        return
-    end
-    
+    monitorCustomAnimation()
+
     if humanoid.MoveDirection.Magnitude > 0 then
         -- Jogador está se movendo, tocar animação de andar
-        if not walkTrack.IsPlaying then
+        if not walkTrack.IsPlaying and (not customTrack or not customTrack.IsPlaying) then
             walkTrack:Play()
         end
-        if idleTrack.IsPlaying then
-            idleTrack:Stop()
-        end
+        if idleTrack.IsPlaying then idleTrack:Stop() end
     else
-        -- Jogador não está se movendo, tocar animação de ficar parado
-        if not idleTrack.IsPlaying then
+        -- Jogador está parado, tocar animação idle
+        if not idleTrack.IsPlaying and (not customTrack or not customTrack.IsPlaying) then
             idleTrack:Play()
         end
-        if walkTrack.IsPlaying then
-            walkTrack:Stop()
-        end
+        if walkTrack.IsPlaying then walkTrack:Stop() end
     end
 end
 
--- Atualizando a função playAnimation() para garantir que a animação personalizada seja tocada
-local function playAnimation()
-    -- Se a animação personalizada não estiver tocando, começa a tocá-la
-    if not customTrack.IsPlaying then
-        -- Parar as animações de andar e ficar parado
-        if walkTrack.IsPlaying then
-            walkTrack:Stop()
+-- Monitorar o estado de pulo do jogador
+humanoid.StateChanged:Connect(function(_, state)
+    if state == Enum.HumanoidStateType.Jumping then
+        if not customTrack or not customTrack.IsPlaying then
+            jumpTrack:Play()
+            stopOtherAnimations()
         end
-        if idleTrack.IsPlaying then
-            idleTrack:Stop()
+    elseif state == Enum.HumanoidStateType.Landed then
+        if jumpTrack.IsPlaying then
+            jumpTrack:Stop()
         end
-        -- Iniciar a animação personalizada
-        customTrack:Play()
+        updateAnimation()
     end
-end
+end)
+
+-- Monitorar movimentação
+humanoid:GetPropertyChangedSignal("MoveDirection"):Connect(updateAnimation)
+
+-- Monitorar animação personalizada
+humanoid.AnimationPlayed:Connect(function(track)
+    if track.Animation.AnimationId == "rbxassetid://17670135152" then
+        customTrack = track
+        track.Stopped:Connect(function()
+            customTrack = nil -- Reseta quando a animação personalizada parar
+            updateAnimation()
+        end)
+        stopOtherAnimations()
+    end
+end)
+
+-- Iniciar animação idle ao carregar
+idleTrack:Play()
 
 -- Chamando a função de animação a cada frame para verificar a movimentação do jogador
 game:GetService("RunService").Heartbeat:Connect(updateAnimation)
@@ -498,7 +529,7 @@ game:GetService("UserInputService").InputBegan:Connect(function(input, gameProce
 end)
 
 -- Atualizar o nome da luva na TextBox a cada 2 segundos
-while true do
-    verificarLuva()  -- Atualiza o nome da luva com "Hit"
-    wait(2)  -- Espera 2 segundos antes de atualizar novamente
+while true do 
+    verificarLuva()   -- Atualiza o nome da luva com "Hit"
+    wait(2)    -- Espera 2 segundos antes de atualizar novamente
 end
