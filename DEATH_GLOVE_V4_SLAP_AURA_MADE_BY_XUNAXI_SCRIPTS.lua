@@ -90,7 +90,7 @@ flashFrame.Parent = screenGui2
 local textLabelflash = Instance.new("TextLabel")
 textLabelflash.Size = UDim2.new(0, 300, 0, 50)  -- Tamanho do texto
 textLabelflash.Position = UDim2.new(0.5, -150, 0.5, -25)  -- Posiciona o texto no centro
-textLabelflash.Text = "Made by XUNAXI Scripts do not Copy or the script is deleted."
+textLabelflash.Text = "Made by XUNAXI Scripts"
 textLabelflash.TextSize = 24
 textLabelflash.TextColor3 = Color3.fromRGB(0, 0, 0)  -- Cor preta para o texto
 textLabelflash.BackgroundTransparency = 1  -- Sem fundo para o texto
@@ -593,6 +593,7 @@ gradient.Color = ColorSequence.new{
 
 -- Rotação do gradiente para criar um efeito bonito
 gradient.Rotation = 45
+
 -- Função fullcharged que envia o comando para o servidor
 local function fullcharged()
     local args = { [1] = "fullcharged" }
