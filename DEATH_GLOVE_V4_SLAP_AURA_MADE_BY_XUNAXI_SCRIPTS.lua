@@ -580,6 +580,19 @@ buttonX.TextColor3 = Color3.fromRGB(0, 0, 0)
 buttonX.Position = UDim2.new(1, -75, 0, 125)
 buttonX.Parent = gui  -- Certifique-se de que 'gui' está definido corretamente
 
+local gradient = Instance.new("UIGradient", buttonX)
+
+-- Definindo a cor do gradiente com transições suaves
+gradient.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.new(0.8, 0, 0)),  -- Vermelho escuro
+    ColorSequenceKeypoint.new(0.25, Color3.new(1, 0, 0)), -- Vermelho puro
+    ColorSequenceKeypoint.new(0.5, Color3.new(1, 0.5, 0)), -- Laranja suave
+    ColorSequenceKeypoint.new(0.75, Color3.new(1, 0, 1)), -- Rosa
+    ColorSequenceKeypoint.new(1, Color3.new(0.8, 0, 0))   -- Vermelho escuro novamente
+}
+
+-- Rotação do gradiente para criar um efeito bonito
+gradient.Rotation = 45
 -- Função fullcharged que envia o comando para o servidor
 local function fullcharged()
     local args = { [1] = "fullcharged" }
