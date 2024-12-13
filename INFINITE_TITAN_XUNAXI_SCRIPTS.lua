@@ -39,5 +39,5 @@ wait(0.3)
 
 -- Acionando o Rockmode duas vezes
 game:GetService("ReplicatedStorage").Rockmode:FireServer()
-wait(1.2)
+wait(3)
 game:GetService("ReplicatedStorage").Rockmode:FireServer()
