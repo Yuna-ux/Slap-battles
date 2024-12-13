@@ -83,4 +83,6 @@ end
 task.wait(0.3)
 
 -- Teleportar personagem
-teleportCharacter(player, Vector3.new(-5, -5, 15))
+teleportCharacter(player, Vector3.new(-547, 334, 5))
+
+humanoid.WalkSpeed = 16
