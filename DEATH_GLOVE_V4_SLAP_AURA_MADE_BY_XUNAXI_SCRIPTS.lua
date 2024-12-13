@@ -134,6 +134,49 @@ buttonGOD.Font = Enum.Font.SourceSansBold
 buttonGOD.TextScaled = true
 buttonGOD.Parent = gui
 
+-- Criação da animação
+local animation = Instance.new("Animation")
+animation.AnimationId = "rbxassetid://16299510063"
+local animationTrackDASH2 = humanoid:LoadAnimation(animation)
+
+-- Criação do botão
+local buttonDASH2 = Instance.new("TextButton")
+buttonDASH2.Size = UDim2.new(0, 125, 0, 40)
+buttonDASH2.Position = UDim2.new(1, -215, 0, 10)
+buttonDASH2.AnchorPoint = Vector2.new(1, 0)
+buttonDASH2.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
+buttonDASH2.TextColor3 = Color3.fromRGB(169, 0, 0)
+buttonDASH2.Text = "King Dash"
+buttonDASH2.Font = Enum.Font.SourceSansBold
+buttonDASH2.TextScaled = true
+buttonDASH2.Parent = gui
+
+-- Conectando a função ao evento de clique do botão
+buttonDASH2.MouseButton1Click:Connect(function()
+    -- Verificar se o personagem está andando
+    if humanoid.MoveDirection.Magnitude > 0 then
+        -- Reproduzindo a animação
+        animationTrackDASH2:Play()
+
+        -- Ativando o ScytheWeapon 5 vezes
+        local args = { [1] = "ScytheWeapon" }
+        for i = 1, 5 do
+            game:GetService("ReplicatedStorage").Scythe:FireServer(unpack(args))
+        end
+
+        -- Aguardando um tempo para a animação terminar antes de realizar o teleporte
+        task.wait(0.2)
+
+        -- Teleportando o personagem
+        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+        if humanoidRootPart then
+            humanoidRootPart.CFrame = humanoidRootPart.CFrame * CFrame.new(0, 0, -75)
+        end
+    else
+        print("O personagem precisa estar andando para ativar o King Dash!")
+    end
+end)
+
 -- Adicionando evento ao botão
 buttonGOD.MouseButton1Click:Connect(function()
     local character = player.Character
@@ -164,6 +207,21 @@ buttonTITAN.Text = "TITAN"
 buttonTITAN.Font = Enum.Font.SourceSansBold
 buttonTITAN.TextScaled = true
 buttonTITAN.Parent = gui -- Certifica-se de que o botão seja filho da ScreenGui existente
+
+local buttonINFINITETITAN = Instance.new("TextButton")
+buttonINFINITETITAN.Size = UDim2.new(0, 125, 0, 40)
+buttonINFINITETITAN.Position = UDim2.new(1, -215, 0, -30)
+buttonINFINITETITAN.AnchorPoint = Vector2.new(1, 0)
+buttonINFINITETITAN.BackgroundColor3 = Color3.fromRGB(255, 165, 0) -- Laranja
+buttonINFINITETITAN.TextColor3 = Color3.fromRGB(0, 0, 0)
+buttonINFINITETITAN.Text = "TITAN INFINITE"
+buttonINFINITETITAN.Font = Enum.Font.SourceSansBold
+buttonINFINITETITAN.TextScaled = true
+buttonINFINITETITAN.Parent = gui -- Certifica-se de que o botão seja filho da ScreenGui existente
+
+buttonINFINITETITAN.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/INFINITE_TITAN_XUNAXI_SCRIPTS.lua"))();
+end)
 
 -- Adicionando evento ao botão
 buttonTITAN.MouseButton1Click:Connect(function()
@@ -617,31 +675,31 @@ buttonZ.Position = UDim2.new(1, -10, 0, 60)
 buttonZ.Parent = gui
 
 local animationId = "rbxassetid://16102535685"
-local animationX = Instance.new("Animation")
-animationX.AnimationId = animationId
+local animationDASH = Instance.new("Animation")
+animationDASH.AnimationId = animationId
 
 -- Obter o personagem e humanoide
 local character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
 
 -- Carregar e preparar a animação
-local animationTrackX = humanoid:LoadAnimation(animationX)
+local animationTrackDASH = humanoid:LoadAnimation(animationDASH)
 
 -- Criando o botão
-local buttonX = Instance.new("TextButton", gui)
+local buttonDASH = Instance.new("TextButton", gui)
 
-buttonX.Size = UDim2.new(0, 65, 0, 65)
-buttonX.Position = UDim2.new(1, -140, 0, 125)  -- Posição do botão
-buttonX.Text = "X"  -- Texto do botão
-buttonX.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Cor de fundo do botão
-buttonX.TextColor3 = Color3.fromRGB(0, 0, 0)  -- Cor do texto (vermelho)
-buttonX.TextScaled = true  -- Ajusta o tamanho do texto
-buttonX.Font = Enum.Font.Fantasy  -- Fonte do texto
-buttonX.BorderSizePixel = 1  -- Tamanho da borda
-buttonX.BorderColor3 = Color3.new(0, 0, 0)  -- Cor da borda preta
+buttonDASH.Size = UDim2.new(0, 65, 0, 65)
+buttonDASH.Position = UDim2.new(1, -140, 0, 125)  -- Posição do botão
+buttonDASH.Text = "dash of death"  -- Texto do botão
+buttonDASH.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Cor de fundo do botão
+buttonDASH.TextColor3 = Color3.fromRGB(0, 0, 0)  -- Cor do texto (vermelho)
+buttonDASH.TextScaled = true  -- Ajusta o tamanho do texto
+buttonDASH.Font = Enum.Font.Fantasy  -- Fonte do texto
+buttonDASH.BorderSizePixel = 1  -- Tamanho da borda
+buttonDASH.BorderColor3 = Color3.new(0, 0, 0)  -- Cor da borda preta
 
 -- Criando o gradiente
-local gradient = Instance.new("UIGradient", buttonX)
+local gradient = Instance.new("UIGradient", buttonDASH)
 gradient.Color = ColorSequence.new{
     ColorSequenceKeypoint.new(0, Color3.new(0.6, 0, 0.6)),  -- Cor roxa escura no início
     ColorSequenceKeypoint.new(0.5, Color3.new(1, 0, 1)),    -- Cor roxa brilhante no meio
@@ -718,10 +776,10 @@ local function slapdash()
     game:GetService("ReplicatedStorage").slapstick:FireServer(unpack(args))
 end
 
--- Função chamada quando o botão X for clicado
-local function onButtonXClick()
+-- Função chamada quando o botão DASH for clicado
+local function onButtonDASHClick()
     -- Tocar a animação
-    animationTrackX:Play()
+    animationTrackDASH:Play()
     slapdash()
 
     -- Chamar a função 'slapClosestPlayer()' (garanta que essa função esteja definida no código)
@@ -748,7 +806,7 @@ local function onButtonXClick()
 end
 
 -- Conectar a função ao evento de clique do botão X
-buttonX.MouseButton1Click:Connect(onButtonXClick)
+buttonDASH.MouseButton1Click:Connect(onButtonDASHClick)
 
 local animationId = "rbxassetid://16102413143"
 local animation = Instance.new("Animation")
