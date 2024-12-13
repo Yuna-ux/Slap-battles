@@ -1,5 +1,4 @@
 
-
 game:GetService("StarterGui"):SetCore("SendNotification", {
     Title = "Carregando o script! espere.",
     Icon = "rbxassetid://115726632148815",
@@ -21,6 +20,19 @@ local function setLoopSpeed()
     while true do
         humanoid.WalkSpeed = 40 -- Define a velocidade para 40
         wait(0.1) -- Aguarda 0.1 segundos antes de verificar novamente
+    end
+end
+
+local partsToDelete = {
+    workspace:FindFirstChild("DEATHBARRIER"),
+    workspace:FindFirstChild("DEATHBARRIER2"),
+    workspace:FindFirstChild("ArenaBarrier"),
+    workspace:FindFirstChild("AntiDefaultArena")
+}
+
+for _, part in ipairs(partsToDelete) do
+    if part then
+        part:Destroy()
     end
 end
 
@@ -90,7 +102,8 @@ flashFrame.Parent = screenGui2
 local textLabelflash = Instance.new("TextLabel")
 textLabelflash.Size = UDim2.new(0, 300, 0, 50)  -- Tamanho do texto
 textLabelflash.Position = UDim2.new(0.5, -150, 0.5, -25)  -- Posiciona o texto no centro
-textLabelflash.Text = "Made by XUNAXI Scripts"
+textLabelflash.Font = Enum.Font.Fantasy
+textLabelflash.Text = "Made by XUNAXI Scripts do not Copy"
 textLabelflash.TextSize = 24
 textLabelflash.TextColor3 = Color3.fromRGB(0, 0, 0)  -- Cor preta para o texto
 textLabelflash.BackgroundTransparency = 1  -- Sem fundo para o texto
@@ -126,6 +139,17 @@ buttonGOD.MouseButton1Click:Connect(function()
     local character = player.Character
     if character and character:FindFirstChild("HumanoidRootPart") then
         character.HumanoidRootPart.CFrame = CFrame.new(-5, -5, 15)
+       
+        local args = {
+    [1] = "addarm"
+}
+
+game:GetService("ReplicatedStorage").slapstick:FireServer(unpack(args))
+
+wait(0.2)
+
+makeCharacterCompletelyBlack()
+
     end
 end)
 
@@ -151,8 +175,9 @@ local buttonT = Instance.new("TextButton")
 buttonT.Size = UDim2.new(0, 65, 0, 65) -- Tamanho 65x65
 buttonT.Text = "T"
 buttonT.AnchorPoint = Vector2.new(1, 0)
-buttonT.TextSize = 24 -- Define o tamanho da fonte como 24
+buttonT.TextSize = 35 -- Define o tamanho da fonte como 24
 buttonT.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+buttonT.Font = Enum.Font.Fantasy
 buttonT.TextColor3 = Color3.fromRGB(0, 0, 0) -- Cor do texto
 buttonT.Position = UDim2.new(1, -10, 0, -5)  -- Posicionado abaixo do botão "Y"
 buttonT.Parent = gui
@@ -192,7 +217,7 @@ buttonGHOST.AnchorPoint = Vector2.new(1, 0)
 buttonGHOST.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 buttonGHOST.TextColor3 = Color3.fromRGB(0, 0, 0)
 buttonGHOST.Text = "INVISIBILIDADE"
-buttonGHOST.Font = Enum.Font.SourceSansBold
+buttonGHOST.Font = Enum.Font.Fantasy
 buttonGHOST.TextScaled = true
 buttonGHOST.Parent = gui
 
@@ -244,6 +269,7 @@ buttonGHOST.MouseButton1Click:Connect(function()
         -- Ativa a invisibilidade
         game:GetService("ReplicatedStorage").Ghostinvisibilityactivated:FireServer()
         buttonGHOST.Text = "VISIBILIDADE" -- Altera o texto do botão
+        buttonGHOST.Font = Enum.Font.Fantasy
         buttonGHOST.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- Altera a cor do botão para verde
     else
         -- Desativa a invisibilidade
@@ -254,20 +280,13 @@ buttonGHOST.MouseButton1Click:Connect(function()
     isInvisible = not isInvisible -- Alterna o estado
 end)
 
--- Adicionando evento ao botão
-buttonGOD.MouseButton1Click:Connect(function()
-    local character = player.Character
-    if character and character:FindFirstChild("HumanoidRootPart") then
-        character.HumanoidRootPart.CFrame = CFrame.new(-5, -5, 15)
-    end
-end)
-
 local buttonR = Instance.new("TextButton")
 buttonR.Size = UDim2.new(0, 65, 0, 65)
 buttonR.Text = "R"
-buttonR.TextSize = 24
+buttonR.TextSize = 35
+buttonR.Font = Enum.Font.Fantasy
 buttonR.AnchorPoint = Vector2.new(1, 0)
-buttonR.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+buttonR.BackgroundColor3 = Color3.fromRGB(0, 0, 255)
 buttonR.TextColor3 = Color3.fromRGB(0, 0, 0)
 buttonR.Position = UDim2.new(1, -10, 0, 125)
 buttonR.Parent = gui
@@ -403,11 +422,18 @@ local character = player.Character or player.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
 
 -- IDs das animações
+local player = game.Players.LocalPlayer -- Obtenção do jogador local
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- IDs das animações
 local idleAnimationId = "rbxassetid://16163355836" -- Ficar parado
 local walkAnimationId = "rbxassetid://16163350920" -- Andar
 local jumpAnimationId = "rbxassetid://180435571"   -- Pulo
 local customAnimationId1 = "rbxassetid://17670135152" -- Animação personalizada 1
 local customAnimationId2 = "rbxassetid://16102413143" -- Animação personalizada 2
+local customAnimationId3 = "rbxassetid://16144808533" -- Animação personalizada 3
+local customAnimationId4 = "rbxassetid://17570131222" -- Animação personalizada 4
 
 -- Criando as animações
 local idleAnimation = Instance.new("Animation")
@@ -422,9 +448,11 @@ local idleTrack = humanoid:LoadAnimation(idleAnimation)
 local walkTrack = humanoid:LoadAnimation(walkAnimation)
 local jumpTrack = humanoid:LoadAnimation(jumpAnimation)
 
--- Variável de rastreamento para animações personalizadas
+-- Variáveis de rastreamento para animações personalizadas
 local customTrack1 = nil -- Será definida quando a primeira animação personalizada for tocada
 local customTrack2 = nil -- Será definida quando a segunda animação personalizada for tocada
+local customTrack3 = nil -- Será definida quando a terceira animação personalizada for tocada
+local customTrack4 = nil -- Será definida quando a quarta animação personalizada for tocada
 
 -- Função para parar todas as animações (exceto as personalizadas)
 local function stopOtherAnimations()
@@ -435,24 +463,35 @@ end
 
 -- Monitorar o status das animações personalizadas
 local function monitorCustomAnimations()
-    if (customTrack1 and customTrack1.IsPlaying) or (customTrack2 and customTrack2.IsPlaying) then
-        stopOtherAnimations()
+    if (customTrack1 and customTrack1.IsPlaying) or 
+       (customTrack2 and customTrack2.IsPlaying) or
+       (customTrack3 and customTrack3.IsPlaying) or
+       (customTrack4 and customTrack4.IsPlaying) then
+        stopOtherAnimations() -- Para todas as animações quando qualquer animação personalizada está tocando
     end
 end
 
 -- Função para alternar entre as animações
 local function updateAnimation()
-    monitorCustomAnimations()
+    monitorCustomAnimations() -- Verifica se alguma animação personalizada está tocando
 
     if humanoid.MoveDirection.Magnitude > 0 then
         -- Jogador está se movendo, tocar animação de andar
-        if not walkTrack.IsPlaying and (not customTrack1 or not customTrack1.IsPlaying) and (not customTrack2 or not customTrack2.IsPlaying) then
+        if not walkTrack.IsPlaying and 
+           (not customTrack1 or not customTrack1.IsPlaying) and 
+           (not customTrack2 or not customTrack2.IsPlaying) and
+           (not customTrack3 or not customTrack3.IsPlaying) and
+           (not customTrack4 or not customTrack4.IsPlaying) then
             walkTrack:Play()
         end
         if idleTrack.IsPlaying then idleTrack:Stop() end
     else
         -- Jogador está parado, tocar animação idle
-        if not idleTrack.IsPlaying and (not customTrack1 or not customTrack1.IsPlaying) and (not customTrack2 or not customTrack2.IsPlaying) then
+        if not idleTrack.IsPlaying and 
+           (not customTrack1 or not customTrack1.IsPlaying) and 
+           (not customTrack2 or not customTrack2.IsPlaying) and
+           (not customTrack3 or not customTrack3.IsPlaying) and
+           (not customTrack4 or not customTrack4.IsPlaying) then
             idleTrack:Play()
         end
         if walkTrack.IsPlaying then walkTrack:Stop() end
@@ -462,9 +501,12 @@ end
 -- Monitorar o estado de pulo do jogador
 humanoid.StateChanged:Connect(function(_, state)
     if state == Enum.HumanoidStateType.Jumping then
-        if not customTrack1 or not customTrack1.IsPlaying and not customTrack2 or not customTrack2.IsPlaying then
+        if not customTrack1 or not customTrack1.IsPlaying and
+           not customTrack2 or not customTrack2.IsPlaying and
+           not customTrack3 or not customTrack3.IsPlaying and
+           not customTrack4 or not customTrack4.IsPlaying then
             jumpTrack:Play()
-            stopOtherAnimations()
+            stopOtherAnimations() -- Para todas as animações ao pular
         end
     elseif state == Enum.HumanoidStateType.Landed then
         if jumpTrack.IsPlaying then
@@ -485,14 +527,28 @@ humanoid.AnimationPlayed:Connect(function(track)
             customTrack1 = nil -- Reseta quando a animação personalizada 1 parar
             updateAnimation()
         end)
-        stopOtherAnimations()
+        stopOtherAnimations() -- Para todas as animações quando customTrack1 começar
     elseif track.Animation.AnimationId == customAnimationId2 then
         customTrack2 = track
         track.Stopped:Connect(function()
             customTrack2 = nil -- Reseta quando a animação personalizada 2 parar
             updateAnimation()
         end)
-        stopOtherAnimations()
+        stopOtherAnimations() -- Para todas as animações quando customTrack2 começar
+    elseif track.Animation.AnimationId == customAnimationId3 then
+        customTrack3 = track
+        track.Stopped:Connect(function()
+            customTrack3 = nil -- Reseta quando a animação personalizada 3 parar
+            updateAnimation()
+        end)
+        stopOtherAnimations() -- Para todas as animações quando customTrack3 começar
+    elseif track.Animation.AnimationId == customAnimationId4 then
+        customTrack4 = track
+        track.Stopped:Connect(function()
+            customTrack4 = nil -- Reseta quando a animação personalizada 4 parar
+            updateAnimation()
+        end)
+        stopOtherAnimations() -- Para todas as animações quando customTrack4 começar
     end
 end)
 
@@ -549,11 +605,13 @@ local function onSquareClick()
 end
 
 local buttonZ = Instance.new("TextButton")
+
 buttonZ.Size = UDim2.new(0, 65, 0, 65)
 buttonZ.Text = "Z"
-buttonZ.TextSize = 24
+buttonZ.TextSize = 35
 buttonZ.AnchorPoint = Vector2.new(1, 0)
-buttonZ.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+buttonZ.Font = Enum.Font.Fantasy
+buttonZ.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 buttonZ.TextColor3 = Color3.fromRGB(0, 0, 0)
 buttonZ.Position = UDim2.new(1, -10, 0, 60)
 buttonZ.Parent = gui
@@ -570,29 +628,84 @@ local humanoid = character:WaitForChild("Humanoid")
 local animationTrackX = humanoid:LoadAnimation(animationX)
 
 -- Criando o botão
-local buttonX = Instance.new("TextButton")
+local buttonX = Instance.new("TextButton", gui)
+
 buttonX.Size = UDim2.new(0, 65, 0, 65)
-buttonX.Text = "X"
-buttonX.TextSize = 24
-buttonX.AnchorPoint = Vector2.new(1, 0)
-buttonX.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-buttonX.TextColor3 = Color3.fromRGB(0, 0, 0)
-buttonX.Position = UDim2.new(1, -75, 0, 125)
-buttonX.Parent = gui  -- Certifique-se de que 'gui' está definido corretamente
+buttonX.Position = UDim2.new(1, -140, 0, 125)  -- Posição do botão
+buttonX.Text = "X"  -- Texto do botão
+buttonX.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Cor de fundo do botão
+buttonX.TextColor3 = Color3.fromRGB(0, 0, 0)  -- Cor do texto (vermelho)
+buttonX.TextScaled = true  -- Ajusta o tamanho do texto
+buttonX.Font = Enum.Font.Fantasy  -- Fonte do texto
+buttonX.BorderSizePixel = 1  -- Tamanho da borda
+buttonX.BorderColor3 = Color3.new(0, 0, 0)  -- Cor da borda preta
 
+-- Criando o gradiente
 local gradient = Instance.new("UIGradient", buttonX)
-
--- Definindo a cor do gradiente com transições suaves
 gradient.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, Color3.new(0.8, 0, 0)),  -- Vermelho escuro
-    ColorSequenceKeypoint.new(0.25, Color3.new(1, 0, 0)), -- Vermelho puro
-    ColorSequenceKeypoint.new(0.5, Color3.new(1, 0.5, 0)), -- Laranja suave
-    ColorSequenceKeypoint.new(0.75, Color3.new(1, 0, 1)), -- Rosa
-    ColorSequenceKeypoint.new(1, Color3.new(0.8, 0, 0))   -- Vermelho escuro novamente
+    ColorSequenceKeypoint.new(0, Color3.new(0.6, 0, 0.6)),  -- Cor roxa escura no início
+    ColorSequenceKeypoint.new(0.5, Color3.new(1, 0, 1)),    -- Cor roxa brilhante no meio
+    ColorSequenceKeypoint.new(1, Color3.new(0.6, 0, 0.6))   -- Cor roxa escura no final
 }
+gradient.Rotation = 45  -- Rotação do gradiente
 
--- Rotação do gradiente para criar um efeito bonito
-gradient.Rotation = 45
+-- Obter o personagem e humanoide
+local animationId = "rbxassetid://16144808533"
+local animationATACK = Instance.new("Animation")
+animationATACK.AnimationId = animationId
+
+-- Obter o personagem e humanoide
+local character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Carregar e preparar a animação
+local animationTrackATACK = humanoid:LoadAnimation(animationATACK)
+
+-- Criar o botão de ataque
+local buttonATACK = Instance.new("TextButton", gui)
+buttonATACK.Size = UDim2.new(0, 65, 0, 65)
+buttonATACK.Position = UDim2.new(1, -205, 0, 125)  -- Posição do botão
+buttonATACK.Text = "ATACK"  -- Texto do botão
+buttonATACK.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Cor de fundo do botão
+buttonATACK.TextColor3 = Color3.fromRGB(0, 0, 0)  -- Cor do texto (vermelho)
+buttonATACK.TextScaled = true  -- Ajusta o tamanho do texto
+buttonATACK.Font = Enum.Font.Fantasy  -- Fonte do texto
+buttonATACK.BorderSizePixel = 1  -- Tamanho da borda
+buttonATACK.BorderColor3 = Color3.new(0, 0, 0)  -- Cor da borda preta
+
+-- Criando o gradiente
+local gradientATACK = Instance.new("UIGradient", buttonATACK)
+gradientATACK.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.new(0.6, 0, 0.6)),  -- Cor roxa escura no início
+    ColorSequenceKeypoint.new(0.5, Color3.new(1, 0, 1)),    -- Cor roxa brilhante no meio
+    ColorSequenceKeypoint.new(1, Color3.new(0.6, 0, 0.6))   -- Cor roxa escura no final
+}
+gradientATACK.Rotation = 45  -- Rotação do gradiente
+
+-- Função quando o botão for clicado
+buttonATACK.MouseButton1Click:Connect(function()   
+    -- Definindo os argumentos para o FireServer
+    local args = { [1] = "ScytheWeapon" }
+
+    -- Enviar a requisição para FireServer 5 vezes
+    for i = 1, 5 do
+        game:GetService("ReplicatedStorage").Scythe:FireServer(unpack(args))
+    end
+
+    -- Verifica se a função slapClosestPlayer está definida
+    if type(slapClosestPlayer) == "function" then
+        slapClosestPlayer()
+    else
+        warn("Função slapClosestPlayer não definida!")
+    end
+
+    -- Verifica se a variável animationTrackATACK está definida corretamente
+    if animationTrackATACK and animationTrackATACK.IsPlaying == false then
+        animationTrackATACK:Play()
+    else
+        warn("Animação não definida ou já está tocando!")
+    end
+end)
 
 -- Função fullcharged que envia o comando para o servidor
 local function fullcharged()
@@ -600,14 +713,20 @@ local function fullcharged()
     game:GetService("ReplicatedStorage").slapstick:FireServer(unpack(args))
 end
 
+local function slapdash()
+    local args = { [1] = "dash" }
+    game:GetService("ReplicatedStorage").slapstick:FireServer(unpack(args))
+end
+
 -- Função chamada quando o botão X for clicado
 local function onButtonXClick()
     -- Tocar a animação
     animationTrackX:Play()
+    slapdash()
 
     -- Chamar a função 'slapClosestPlayer()' (garanta que essa função esteja definida no código)
     slapClosestPlayer()
-
+    
     -- Enviar comando para o servidor (ScytheWeapon)
     local args = { [1] = "ScytheWeapon" }
     for i = 1, 5 do
@@ -615,6 +734,7 @@ local function onButtonXClick()
     end
 
     -- Enviar o comando fullcharged para o servidor
+
     fullcharged()
 
     -- Aguardar um pequeno intervalo antes de mover o personagem
@@ -730,6 +850,11 @@ local function restoreGravity()
     game.Workspace.Gravity = originalGravity  -- Restaura a gravidade original
 end
 
+local function banHammer()
+    local args = { [1] = "Ban Hammer" }
+    game:GetService("ReplicatedStorage").RetroAbility:FireServer(unpack(args))
+end
+
 -- Envia o comando para o servidor
 local function fullcharged()
     local args = { [1] = "fullcharged" }
@@ -738,6 +863,7 @@ end
 
 -- Conecta a função ao clique do botão
 buttonR.MouseButton1Click:Connect(function()
+    banHammer()
     teleportUpwards()  -- Teletransporta para cima
     fullcharged()  -- Envia o comando "fullcharged"
 
@@ -755,5 +881,5 @@ end)
 -- Atualizar o nome da luva na TextBox a cada 0.2 segundos
 while true do
     verificarLuva() -- Chama a função para verificar a luva
-    wait(0.2)  -- Espera 0.2 segundos antes de atualizar novamente
+    wait(0.2)  -- Espera 0.2 segundos antes de atualizar novamente  
 end
