@@ -1,4 +1,5 @@
--- Carregamento inicial
+
+--Carregamento inicial
 game:GetService("StarterGui"):SetCore("SendNotification", {
     Title = "Carregando o script! Espere.",
     Icon = "rbxassetid://115726632148815",
@@ -8,8 +9,8 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 })
 
 -- Carregar outro script externo
-loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/ANTIVOID_XUNAXI_SCRIPTS_SLAP_BATTLES.lua"))()
-
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/ANTIVOID_XUNAXI_SCRIPTS_SLAP_BATTLES.lua"))();
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/BYPASS_ANTICHEAT_XUNAXI_Scripts.lua"))();
 task.wait(0.3)
 
 -- Referências iniciais
@@ -226,8 +227,6 @@ buttonDASH2.MouseButton1Click:Connect(function()
     end
 end)
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/Contorno_vermelho.lua"))();
-
 -- Adicionando evento ao botão
 buttonGOD.MouseButton1Click:Connect(function()
     local character = player.Character
@@ -240,9 +239,10 @@ buttonGOD.MouseButton1Click:Connect(function()
 
 game:GetService("ReplicatedStorage").slapstick:FireServer(unpack(args))
 
-task.wait(0.2)
+task.wait(0.3)
 makeCharacterCompletelyBlack()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/Contorno_vermelho.lua"))();
+
 loadstring(game:HttpGet('https://pastebin.com/raw/uLhKZbBz'))();
     end
 end)
@@ -257,7 +257,6 @@ buttonTITAN.Text = "TITAN"
 buttonTITAN.Font = Enum.Font.SourceSansBold
 buttonTITAN.TextScaled = true
 buttonTITAN.Parent = gui -- Certifica-se de que o botão seja filho da ScreenGui existente
-
 
 local buttonINFINITETITAN = Instance.new("TextButton")
 buttonINFINITETITAN.Size = UDim2.new(0, 125, 0, 40)
@@ -484,6 +483,8 @@ local function verificarLuva(gloveName)
                 hitName = "ZZZZZZZHit"
             elseif gloveName == "Extended" then
                 hitName = "b"
+            elseif gloveName == "Plague" then
+                hitName = "PlagueHit"
             elseif gloveName == "Brick" then
                 hitName = "BrickHit"
             elseif gloveName == "Snow" then
@@ -504,6 +505,8 @@ local function verificarLuva(gloveName)
                 hitName = "GhostHit"
             elseif gloveName == "Thanos" then
                 hitName = "ThanosHit"
+            elseif gloveName == "Moon" then
+                hitName = "CelestialHit"
             elseif gloveName == "Stun" then
                 hitName = "HtStun"
             elseif gloveName == "L.O.L.B.O.M.B" then
@@ -1085,10 +1088,13 @@ buttonR.MouseButton1Click:Connect(function()
     restoreGravity()
 end)
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/ANTIS_SLAP_BATLES.lua"))();
+print("Carregando Contorno_vermelho...")
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/Contorno_vermelho_XUNAXI.lua"))()
+print("Contorno_vermelho carregado.")
 
--- Atualizar o nome da luva na TextBox a cada 0.2 segundos
-while true do 
-    verificarLuva()  -- Chama a função para verificar a luva
-    task.wait(0.2)  -- Espera 0.2 segundos antes de atualizar novamente  
-end
+task.wait(1)
+
+print("Carregando ANTIS_SLAP_BATLES...")
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/ANTIS_SLAP_BATTLES.lua"))();
+print("ANTIS_SLAP_BATLES carregado.")
+print("ANTIS_SLAP_BATLES carregado.")
