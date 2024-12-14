@@ -18,6 +18,7 @@ end)
 -- Serviços necessários
 local Players = game:GetService("Players")
 local StarterGui = game:GetService("StarterGui")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 -- Função para verificar e remover anticheat
 local function checkAndDestroyAntiMobileExploits()
@@ -45,5 +46,25 @@ local function checkAndDestroyAntiMobileExploits()
     end
 end
 
--- Executa a função
+-- Função para deletar o evento GRAB
+local function deleteGrabEvent()
+    local grabEvent = ReplicatedStorage:FindFirstChild("GRAB")
+    if grabEvent then
+        grabEvent:Destroy()
+        StarterGui:SetCore("SendNotification", {
+            Title = "Evento Removido",
+            Text = "O evento 'GRAB' foi deletado com sucesso!",
+            Duration = 5
+        })
+    else
+        StarterGui:SetCore("SendNotification", {
+            Title = "Evento Não Encontrado",
+            Text = "O evento 'GRAB' não foi localizado no ReplicatedStorage.",
+            Duration = 5
+        })
+    end
+end
+
+-- Executa as funções
 checkAndDestroyAntiMobileExploits()
+deleteGrabEvent()
