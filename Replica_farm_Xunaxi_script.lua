@@ -118,7 +118,7 @@ end
 task.spawn(function()
     while true do
         executeFirstScript()
-        task.wait(7) -- Espera 7 segundos antes de ativar novamente
+        task.wait(15) -- Espera 7 segundos antes de ativar novamente
     end
 end)
 
