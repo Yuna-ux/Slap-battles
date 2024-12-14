@@ -1,5 +1,53 @@
+-- Variáveis de controle
+local AntiNull = false
+local AntiKnock = false
+
+-- Função para Anti Null
+local function toggleAntiNull(enable)
+    AntiNull = enable
+    while AntiNull do
+        for _, v in pairs(game.Workspace:GetChildren()) do
+            if v.Name == "Imp" and v:FindFirstChild("Body") then
+                local gloveHits = game.ReplicatedStorage:FindFirstChild("gloveHits")
+                if gloveHits and gloveHits[game.Players.LocalPlayer.leaderstats.Glove.Value] then
+                    gloveHits[game.Players.LocalPlayer.leaderstats.Glove.Value]:FireServer(v.Body, true)
+                end
+            end
+        end
+        task.wait()
+    end
+end
+
+-- Função para Anti Knockoff
+local function toggleAntiKnock(enable)
+    AntiKnock = enable
+    while AntiKnock do
+        if game.Workspace.CurrentCamera and 
+           game.Players.LocalPlayer.Character and 
+           game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid") and 
+           game.Workspace.CurrentCamera.CameraSubject ~= game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid") and 
+           game.Workspace.CurrentCamera.CameraSubject == game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name .. "'s_falsehead") then
+            game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+        end
+        task.wait()
+    end
+end
+
+-- Configurando teclas para ativar/desativar as funções
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+    -- Tecla para Anti Null (Exemplo: N)
+    if input.KeyCode == Enum.KeyCode.N then
+        toggleAntiNull(not AntiNull)
+    end
+
+    -- Tecla para Anti Knockoff (Exemplo: K)
+    if input.KeyCode == Enum.KeyCode.K then
+        toggleAntiKnock(not AntiKnock)
+    end
+end)
+
 -- Define o nome padrão do NameTag
-local newNameTag = "DEATH V4.3"
+local newNameTag = "DEATH V4.3⬛️"
 
 -- Atualiza o NameTag do jogador local
 local function updateNameTag()
