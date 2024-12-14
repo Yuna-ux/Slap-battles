@@ -1,5 +1,5 @@
 -- Define o nome padrão do NameTag
-local newNameTag = "DEATH"
+local newNameTag = "DEATH V4.3"
 
 -- Atualiza o NameTag do jogador local
 local function updateNameTag()
@@ -26,6 +26,28 @@ updateNameTag()
 game.Workspace.ChildAdded:Connect(function(child)
     if child.Name == "NametagChanged" then
         updateNameTag()
+    end
+end)
+
+-- Variável para controlar a função
+local AntiCubeOfDeath = false
+
+-- Função para ativar/desativar Anti Cube of Death
+local function toggleAntiCubeOfDeath(enable)
+    AntiCubeOfDeath = enable
+    if game.Workspace:FindFirstChild("the cube of death(i heard it kills)", true) and 
+       game.Workspace.Arena.CubeOfDeathArea["the cube of death(i heard it kills)"]:FindFirstChild("Part") then
+        local cubeArea = game.Workspace.Arena.CubeOfDeathArea["the cube of death(i heard it kills)"]
+        cubeArea.CanTouch = not enable
+        cubeArea.Part.CanTouch = not enable
+    end
+end
+
+-- Monitoramento de teclas ou botões para ativar/desativar
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+    -- Tecla para Anti Cube of Death (Exemplo: T)
+    if input.KeyCode == Enum.KeyCode.T then
+        toggleAntiCubeOfDeath(not AntiCubeOfDeath)
     end
 end)
 
@@ -74,3 +96,4 @@ ToggleAntiTimestop(true)
 
 -- Para desativar o Anti Time Stop, chame:
 -- ToggleAntiTimestop(false)
+
