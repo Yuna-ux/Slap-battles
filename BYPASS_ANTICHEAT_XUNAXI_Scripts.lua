@@ -1,3 +1,6 @@
+
+loadstring(game:Httpget("https://raw.githubusercontent.com/Donjosx/General/refs/heads/main/Hookmetamethod.lua"))();
+
 local Namecall
 Namecall = hookmetamethod(game, "__namecall", function(self, ...)
    if getnamecallmethod() == "FireServer" and tostring(self) == "Ban" then
