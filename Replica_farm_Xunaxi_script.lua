@@ -72,7 +72,7 @@ if character and character:FindFirstChild("HumanoidRootPart") then
 end
 
 -- Aguarda 0.7 segundos
-task.wait(0.7)
+task.wait(1.5)
 
 -- Função para teletransportar o personagem para a nova posição
 local function teleportToNewPosition()
