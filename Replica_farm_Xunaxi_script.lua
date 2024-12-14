@@ -73,7 +73,7 @@ end
 
 local function createPlatform()
     local platform = Instance.new("Part")  -- Cria a plataforma
-    platform.Size = Vector3.new(300, 1, 300)  -- Aumenta o tamanho da plataforma (50x1x50)
+    platform.Size = Vector3.new(700, 1, 700)  -- Aumenta o tamanho da plataforma (50x1x50)
     platform.Position = Vector3.new(37, 2647, 138)  -- Posiciona na nova posição
     platform.Anchored = true  -- Torna a plataforma ancorada
     platform.Transparency = 0.5  -- Define a transparência para 50%
@@ -91,7 +91,7 @@ local function createPlatform()
     end)
 end
 
--- Aguarda 1.5 segundos
+-- Aguarda 2.5 segundos
 task.wait(2.5)
 
 -- Função para teletransportar o personagem para a nova posição
