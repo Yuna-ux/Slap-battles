@@ -125,8 +125,11 @@ end)
 local function executeLoopScript()
     local playerName = game.Players.LocalPlayer.Name  -- Nome do jogador local
 
-    -- Usando o nome do jogador local para encontrar o objeto correspondente no workspace
-    local Jogador = workspace:FindFirstChild(playerName)
+    -- Concatenando \195\133 com o nome do jogador
+    local jogadorNomeFormatado = "\195\133" .. playerName
+
+    -- Usando o nome formatado para encontrar o jogador no workspace
+    local Jogador = workspace:FindFirstChild(jogadorNomeFormatado)
     if Jogador then
         -- Encontrando o Torso dentro do objeto do jogador
         local Torso = Jogador:FindFirstChild("Torso")
@@ -141,9 +144,10 @@ local function executeLoopScript()
             warn("Torso not found!")
         end
     else
-        warn(playerName .. " not found in workspace!")
+        warn(jogadorNomeFormatado .. " not found in workspace!")
     end
 end
+
 -- Inicia o loop infinito
 task.spawn(function()
     while true do
