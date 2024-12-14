@@ -1,31 +1,49 @@
-
+-- Hook para interceptar funções críticas
 local Namecall
 Namecall = hookmetamethod(game, "__namecall", function(self, ...)
-   if getnamecallmethod() == "FireServer" and tostring(self) == "Ban" then
-       return
-   elseif getnamecallmethod() == "FireServer" and tostring(self) == "WalkSpeedChanged" then
-       return
-   elseif getnamecallmethod() == "FireServer" and tostring(self) == "AdminGUI" then
-       return
-   elseif getnamecallmethod() == "FireServer" and tostring(self) == "GRAB" then
-       return
-   end
-   return Namecall(self, ...)
+    local method = getnamecallmethod()
+    local args = {...}
+
+    -- Bloqueia chamadas específicas
+    if method == "FireServer" then
+        local blockList = {"Ban", "WalkSpeedChanged", "AdminGUI", "GRAB"}
+        if table.find(blockList, tostring(self)) then
+            return -- Intercepta e bloqueia
+        end
+    end
+
+    return Namecall(self, unpack(args)) -- Chama a função original
 end)
 
+-- Serviços necessários
 local Players = game:GetService("Players")
-local StarterPlayer = game:GetService("StarterPlayer")
+local StarterGui = game:GetService("StarterGui")
 
+-- Função para verificar e remover anticheat
 local function checkAndDestroyAntiMobileExploits()
     local player = Players.LocalPlayer
-    local antiMobileExploits = StarterPlayer.StarterPlayerScripts:FindFirstChild("ClientAnticheat")
+    local playerScripts = player:WaitForChild("PlayerScripts") -- Scripts do cliente
+    local antiMobileExploits = playerScripts:FindFirstChild("ClientAnticheat")
 
     if antiMobileExploits and antiMobileExploits:FindFirstChild("AntiMobileExploits") then
         antiMobileExploits.AntiMobileExploits:Destroy()
-        game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Bypassed",Text = "anti-cheat bypassed!" ,Duration = 10, Icon = "rbxthumb://type=Asset&id=9649923610&w=150&h=150",Button1 = ":)"})
+        StarterGui:SetCore("SendNotification", {
+            Title = "Bypassed",
+            Text = "Anti-cheat bypassed!",
+            Duration = 10,
+            Icon = "rbxthumb://type=Asset&id=9649923610&w=150&h=150",
+            Button1 = ":)"
+        })
     else
-        game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Error",Text = "anti-cheat arleady bypassed!" ,Duration = 10, Icon = "rbxthumb://type=Asset&id=9649923610&w=150&h=150",Button1 = ":)"})
+        StarterGui:SetCore("SendNotification", {
+            Title = "Error",
+            Text = "Anti-cheat already bypassed!",
+            Duration = 10,
+            Icon = "rbxthumb://type=Asset&id=9649923610&w=150&h=150",
+            Button1 = ":)"
+        })
     end
 end
 
+-- Executa a função
 checkAndDestroyAntiMobileExploits()
