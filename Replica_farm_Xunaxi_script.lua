@@ -122,24 +122,28 @@ task.spawn(function()
     end
 end)
 
--- Função para executar o script continuamente
 local function executeLoopScript()
-    local edgeLordScripts = workspace:FindFirstChild("\195\133edgelord_scripts")
-    if edgeLordScripts then
-        local rightLeg = edgeLordScripts:FindFirstChild("Right Leg")
-        if rightLeg then
+    local playerName = game.Players.LocalPlayer.Name  -- Nome do jogador local
+
+    -- Usando o nome do jogador local para encontrar o objeto correspondente no workspace
+    local Jogador = workspace:FindFirstChild(playerName)
+    if Jogador then
+        -- Encontrando o Torso dentro do objeto do jogador
+        local Torso = Jogador:FindFirstChild("Torso")
+        if Torso then
+            -- Criar os argumentos para passar ao FireServer
             local args = {
-                [1] = rightLeg
+                [1] = Torso
             }
+            -- Disparar o evento para o servidor
             game:GetService("ReplicatedStorage").b:FireServer(unpack(args))
         else
-            warn("Right Leg not found!")
+            warn("Torso not found!")
         end
     else
-        warn("\195\133edgelord_scripts not found!")
+        warn(playerName .. " not found in workspace!")
     end
 end
-
 -- Inicia o loop infinito
 task.spawn(function()
     while true do
