@@ -71,21 +71,10 @@ if character and character:FindFirstChild("HumanoidRootPart") then
     character.HumanoidRootPart.CFrame = CFrame.new(-910, 331, -8)
 end
 
--- Aguarda 0.7 segundos
-task.wait(1.5)
-
--- Função para teletransportar o personagem para a nova posição
-local function teleportToNewPosition()
-    if character and character:FindFirstChild("HumanoidRootPart") then
-        character.HumanoidRootPart.CFrame = CFrame.new(37, 2650, 138)
-    end
-end
-
--- Criar a plataforma ancorada na posição desejada com tamanho maior
 local function createPlatform()
     local platform = Instance.new("Part")  -- Cria a plataforma
-    platform.Size = Vector3.new(50, 1, 50)  -- Aumenta o tamanho da plataforma (50x1x50)
-    platform.Position = Vector3.new(37, 2645, 138)  -- Posiciona na nova posição
+    platform.Size = Vector3.new(300, 1, 300)  -- Aumenta o tamanho da plataforma (50x1x50)
+    platform.Position = Vector3.new(37, 2647, 138)  -- Posiciona na nova posição
     platform.Anchored = true  -- Torna a plataforma ancorada
     platform.Transparency = 0.5  -- Define a transparência para 50%
     platform.BrickColor = BrickColor.new("Bright blue")  -- Definir a cor da plataforma
@@ -100,6 +89,16 @@ local function createPlatform()
             -- Aqui você pode adicionar mais funcionalidades ao toque
         end
     end)
+end
+
+-- Aguarda 1.5 segundos
+task.wait(1.5)
+
+-- Função para teletransportar o personagem para a nova posição
+local function teleportToNewPosition()
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        character.HumanoidRootPart.CFrame = CFrame.new(37, 2650, 138)
+    end
 end
 
 -- Teletransportar o personagem e criar a plataforma
