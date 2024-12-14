@@ -1,33 +1,90 @@
-
+-- Carregamento inicial
 game:GetService("StarterGui"):SetCore("SendNotification", {
-    Title = "Carregando o script! espere.",
+    Title = "Carregando o script! Espere.",
     Icon = "rbxassetid://115726632148815",
     Text = "Script",
     Button1 = "OK",
     Duration = 7,
 })
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/ANTIVOID_XUNAXI_SCRIPTS_SLAP_BATTLES.lua"))();
+-- Carregar outro script externo
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/ANTIVOID_XUNAXI_SCRIPTS_SLAP_BATTLES.lua"))()
 
-wait(0.3)
+task.wait(0.3)
 
+-- Referências iniciais
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoid = character:WaitForChild("Humanoid")
 
--- Função para ajustar a velocidade constantemente
-local function setLoopSpeed()
-    while true do
-        humanoid.WalkSpeed = 40 -- Define a velocidade para 40
-        wait(0.1) -- Aguarda 0.1 segundos antes de verificar novamente
+local smokeAura
+
+local function createSmokeAura()
+    -- Cria a aura apenas se não existir
+    if not smokeAura then
+        local auraPart = Instance.new("Part")
+        auraPart.Name = "SmokeAura"
+        auraPart.Size = character.Torso.Size -- Ajusta para o tamanho do torso
+        auraPart.Transparency = 1
+        auraPart.Anchored = true
+        auraPart.CanCollide = false
+        auraPart.Parent = character
+
+        local smoke = Instance.new("ParticleEmitter")
+        smoke.Name = "SmokeEffect"
+        smoke.Texture = "rbxassetid://28374867"
+        smoke.Size = NumberSequence.new(1, 2) -- Tamanho proporcional ao torso
+        smoke.Rate = 50 -- Taxa moderada de partículas
+        smoke.Lifetime = NumberRange.new(0.5, 1) -- Partículas rápidas e leves
+        smoke.Speed = NumberRange.new(1, 3) -- Velocidade controlada
+        smoke.Rotation = NumberRange.new(0, 360)
+        smoke.RotSpeed = NumberRange.new(-15, 15)
+        smoke.Color = ColorSequence.new(Color3.new(0, 0, 0)) -- Preto
+        smoke.Transparency = NumberSequence.new(0.5) -- Mais visível
+        smoke.Parent = auraPart
+
+        smokeAura = auraPart
+
+        -- Faz a aura seguir o personagem
+        game:GetService("RunService").Heartbeat:Connect(function()
+            if character and character:FindFirstChild("HumanoidRootPart") then
+                auraPart.Position = character.HumanoidRootPart.Position
+            end
+        end)
     end
 end
 
+local function removeSmokeAura()
+    -- Remove a aura, se existir
+    if smokeAura then
+        smokeAura:Destroy()
+        smokeAura = nil
+    end
+end
+
+-- Detecta se o jogador está andando
+humanoid.Running:Connect(function(speed)
+    if speed > 0 then
+        createSmokeAura()
+    else
+        removeSmokeAura()
+    end
+end)
+
+-- Função para ajustar a velocidade constantemente
+local function setLoopSpeed(humanoid)
+    while humanoid and humanoid.Parent do
+        humanoid.WalkSpeed = 40 -- Define a velocidade para 40
+        task.wait(0.1) -- Aguarda 0.1 segundos antes de verificar novamente
+    end
+end
+
+-- Remover barreiras no jogo
 local partsToDelete = {
     workspace:FindFirstChild("DEATHBARRIER"),
     workspace:FindFirstChild("DEATHBARRIER2"),
     workspace:FindFirstChild("ArenaBarrier"),
-    workspace:FindFirstChild("AntiDefaultArena")
+    workspace:FindFirstChild("AntiDefaultArena"),
 }
 
 for _, part in ipairs(partsToDelete) do
@@ -37,12 +94,14 @@ for _, part in ipairs(partsToDelete) do
 end
 
 -- Executa a função em uma nova thread para manter o loop ativo
-spawn(setLoopSpeed)
+spawn(function()
+    setLoopSpeed(humanoid)
+end)
 
--- Localizar a mão direita (se necessário, mantendo a estrutura do código original)
-local rightHalocal player = game.Players.LocalPlayer
-
-local rightHand = character:FindFirstChild("RightHand") or character:FindFirstChild("Right Arm") or character:FindFirstChild("RightUpperArm")
+-- Identificar a mão direita do personagem
+local rightHand = character:FindFirstChild("RightHand") or 
+                  character:FindFirstChild("Right Arm") or 
+                  character:FindFirstChild("RightUpperArm")
 
 if rightHand then
     print("Right hand localizada: " .. rightHand.Name)
@@ -60,13 +119,13 @@ if ModelDeath then
     end
     for _, a in pairs(ModelDeath.Torso:GetChildren()) do
         if a.ClassName == "Attachment" and a:FindFirstChildWhichIsA("ParticleEmitter") then
-            a:Clone().Parent = game.Players.LocalPlayer.Character.Torso
+            a:Clone().Parent = character:FindFirstChild("Torso") or character:FindFirstChild("UpperTorso")
         end
     end
     ModelDeath:Destroy()
 end
 
--- Deixar o personagem completamente preto com um contorno vermelho
+-- Deixar o personagem completamente preto com contorno vermelho
 local function makeCharacterCompletelyBlack()
     for _, descendant in pairs(character:GetDescendants()) do
         if descendant:IsA("BasePart") or descendant:IsA("MeshPart") then
@@ -80,39 +139,31 @@ local function makeCharacterCompletelyBlack()
             descendant:Destroy()
         end
     end
-
-    local outlineEffect = Instance.new("Highlight")
-    outlineEffect.Parent = character
-    outlineEffect.OutlineColor = Color3.new(1, 0, 0) -- Vermelho
-    outlineEffect.FillTransparency = 1 -- Apenas contorno
 end
 
-local player = game.Players.LocalPlayer
-local screenGui2 = Instance.new("ScreenGui")
-screenGui2.Parent = player.PlayerGui
+makeCharacterCompletelyBlack()
 
--- Criar o efeito de flash branco
+-- Criar efeito de flash branco
+local screenGui2 = Instance.new("ScreenGui")
+screenGui2.Parent = player:WaitForChild("PlayerGui")
+
 local flashFrame = Instance.new("Frame")
-flashFrame.Size = UDim2.new(1, 0, 1, 0)  -- Ocupa toda a tela
-flashFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)  -- Cor branca
-flashFrame.BackgroundTransparency = 0  -- Sem transparência (tela cheia de branco)
+flashFrame.Size = UDim2.new(1, 0, 1, 0)
+flashFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+flashFrame.BackgroundTransparency = 0
 flashFrame.Parent = screenGui2
 
--- Criar o texto no meio da tela
 local textLabelflash = Instance.new("TextLabel")
-textLabelflash.Size = UDim2.new(0, 300, 0, 50)  -- Tamanho do texto
-textLabelflash.Position = UDim2.new(0.5, -150, 0.5, -25)  -- Posiciona o texto no centro
+textLabelflash.Size = UDim2.new(0, 300, 0, 50)
+textLabelflash.Position = UDim2.new(0.5, -150, 0.5, -25)
 textLabelflash.Font = Enum.Font.Fantasy
 textLabelflash.Text = "Made by XUNAXI Scripts do not Copy"
 textLabelflash.TextSize = 24
-textLabelflash.TextColor3 = Color3.fromRGB(0, 0, 0)  -- Cor preta para o texto
-textLabelflash.BackgroundTransparency = 1  -- Sem fundo para o texto
+textLabelflash.TextColor3 = Color3.fromRGB(0, 0, 0)
+textLabelflash.BackgroundTransparency = 1
 textLabelflash.Parent = screenGui2
 
--- Espera 1.5 segundos e depois remove o flash
 task.wait(1.5)
-
--- Remove a tela branca e o texto
 flashFrame:Destroy()
 textLabelflash:Destroy()
 
@@ -120,8 +171,6 @@ local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
 gui.Parent = player:WaitForChild("PlayerGui")
 gui.ResetOnSpawn = true -- Isso impede que a GUI seja destruída quando o personagem morrer ou renasce
-
-makeCharacterCompletelyBlack()
 
 local buttonGOD = Instance.new("TextButton")
 buttonGOD.Size = UDim2.new(0, 125, 0, 40)
@@ -177,6 +226,8 @@ buttonDASH2.MouseButton1Click:Connect(function()
     end
 end)
 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/Contorno_vermelho.lua"))();
+
 -- Adicionando evento ao botão
 buttonGOD.MouseButton1Click:Connect(function()
     local character = player.Character
@@ -189,13 +240,12 @@ buttonGOD.MouseButton1Click:Connect(function()
 
 game:GetService("ReplicatedStorage").slapstick:FireServer(unpack(args))
 
-wait(0.2)
-
+task.wait(0.2)
 makeCharacterCompletelyBlack()
-
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/Contorno_vermelho.lua"))();
+loadstring(game:HttpGet('https://pastebin.com/raw/uLhKZbBz'))();
     end
 end)
-
 -- Criando o botão TITAN
 local buttonTITAN = Instance.new("TextButton")
 buttonTITAN.Size = UDim2.new(0, 125, 0, 40)
@@ -207,6 +257,7 @@ buttonTITAN.Text = "TITAN"
 buttonTITAN.Font = Enum.Font.SourceSansBold
 buttonTITAN.TextScaled = true
 buttonTITAN.Parent = gui -- Certifica-se de que o botão seja filho da ScreenGui existente
+
 
 local buttonINFINITETITAN = Instance.new("TextButton")
 buttonINFINITETITAN.Size = UDim2.new(0, 125, 0, 40)
@@ -413,44 +464,126 @@ letterE.Font = Enum.Font.SourceSansBold
 -- Criando a TextBox para o jogador escolher qual evento será chamado
 local textBox = Instance.new("TextBox", gui)
 textBox.Size = UDim2.new(0, 200, 0, 50)
-textBox.Position = UDim2.new(0, 0, 0, 400)
-textBox.PlaceholderText = "Nome da luva será mostrado aqui"
+textBox.Position = UDim2.new(0, 0, 0, 1000)
+textBox.Text = "Nome da luva será mostrado aqui"
 textBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 textBox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 
--- Função para pegar o nome da luva e adicionar "Hit", com exceção de casos específicos
-local function verificarLuva()
-    -- Verificar se o jogador tem leaderstats
-    local leaderstats = player:FindFirstChild("leaderstats")
-    
-    if leaderstats then
-        -- Obter a categoria "Glove"
-        local glove = leaderstats:FindFirstChild("Glove")
-        
-        if glove then
-            -- Pegar o nome da luva e adicionar "Hit"
-            local gloveName = glove.Value
-            local hitName
+-- Função para verificar o nome da luva e retornar o nome correto
+local function verificarLuva(gloveName)
+    local hitName = "GeneralHit" -- Valor padrão
 
-            -- Condicional para casos especiais
-            if gloveName == "Killstreak" then
-                hitName = "KSHit"
-            elseif gloveName == "Titan" then
-                hitName = "GeneralHit"
+  -- Verificar o nome da luva e atribuir o respectivo "Hit"
+            if gloveName == "Default" then
+                hitName = "b"
             elseif gloveName == "Dual" then
-                hitName = "GeneralHit"  -- Exibe "GeneralHit" ao invés de "DualHit"
-            elseif gloveName == "Default" then
-                hitName = "b"  -- Exibe "b" ao invés de "DefaultHit"
+                hitName = "GeneralHit"
+            elseif gloveName == "Diamond" then
+                hitName = "DiamondHit"
+            elseif gloveName == "ZZZZZZZ" then
+                hitName = "ZZZZZZZHit"
             elseif gloveName == "Extended" then
-                hitName = "b"  -- Exibe "b" ao invés de "ExtendedHit"
-            else
-                hitName = gloveName .. "Hit"  -- Adiciona "Hit" normalmente
+                hitName = "b"
+            elseif gloveName == "Brick" then
+                hitName = "BrickHit"
+            elseif gloveName == "Snow" then
+                hitName = "SnowHit"
+            elseif gloveName == "Pull" then
+                hitName = "PullHit"
+            elseif gloveName == "Flash" then
+                hitName = "FlashHit"
+            elseif gloveName == "Spring" then
+                hitName = "springhit"
+            elseif gloveName == "Swapper" then
+                hitName = "HitSwapper"
+            elseif gloveName == "Bull" then
+                hitName = "BullHit"
+            elseif gloveName == "Dice" then
+                hitName = "DiceHit"
+            elseif gloveName == "Ghost" then
+                hitName = "GhostHit"
+            elseif gloveName == "Thanos" then
+                hitName = "ThanosHit"
+            elseif gloveName == "Stun" then
+                hitName = "HtStun"
+            elseif gloveName == "L.O.L.B.O.M.B" then
+                hitName = "GeneralHit"
+            elseif gloveName == "Za Hando" then
+                hitName = "zhrmat"
+            elseif gloveName == "Fort" then
+                hitName = "Fort"
+            elseif gloveName == "Magnet" then
+                hitName = "MagnetHIT"
+            elseif gloveName == "Pusher" then
+                hitName = "PusherHit"
+            elseif gloveName == "Anchor" then
+                hitName = "hitAnchor"
+            elseif gloveName == "Space" then
+                hitName = "HtSpace"
+            elseif gloveName == "Boomerang" then
+                hitName = "BoomerangH"
+            elseif gloveName == "Speedrun" then
+                hitName = "Speedrunhit"
+            elseif gloveName == "Mail" then
+                hitName = "MailHit"
+            elseif gloveName == "T H I C K" then
+                hitName = "GeneralHit"
+            elseif gloveName == "Golden" then
+                hitName = "GoldenHit"
+            elseif gloveName == "Squid" then
+                hitName = "GeneralHit"
+            elseif gloveName == "MR" then
+                hitName = "MisterHit"
+            elseif gloveName == "Hive" then
+                hitName = "GeneralHit"
+            elseif gloveName == "Reaper" then
+                hitName = "GeneralHit"
+            elseif gloveName == "Replica" then
+                hitName = "ReplicaHit"
+            elseif gloveName == "Defense" then
+                hitName = "DefenseHit"
+            elseif gloveName == "Killstreak" then
+                hitName = "KSHit"
+            elseif gloveName == "Reverse" then
+                hitName = "ReverseHit"
+            elseif gloveName == "Shukuchi" then
+                hitName = "ShukuchiHit"
+            elseif gloveName == "Duelist" then
+                hitName = "DuelistHit"
+            elseif gloveName == "Woah" then
+                hitName = "(woahHit)"
+            elseif gloveName == "Ice (doesnt work, idk why)" then
+                hitName = "(IceHit)"
+            elseif gloveName == "Gummy" then
+                hitName = "(GeneralHit)"
+            elseif gloveName == "Adios" then
+                hitName = "(hitAdios)"
+            elseif gloveName == "The Flex" then
+                hitName = "FlexHit"
+            elseif gloveName == "CULT" then
+                hitName = "CULTHit"
+            elseif gloveName == "Tycoon" then
+                hitName = "GeneralHit"
+            elseif gloveName == "Orbit" then
+                hitName = "Orbihit"
+            elseif gloveName == "Avatar (works for Avatar and the Normal Glove)" then
+                hitName = "GeneralHit"
+            elseif gloveName == "Frostbite" then
+                hitName = "GeneralHit"
             end
-            
-            -- Atualizar o texto da TextBox com o nome da luva + "Hit" (ou modificado para KSHit/GeneralHit)
-            textBox.Text = hitName  -- A TextBox é atualizada aqui com o nome da luva + "Hit"
-            
-            print("O nome da luva com 'Hit' é: " .. hitName) -- Log para ver no console
+
+    return hitName
+end
+
+-- Função para atualizar a TextBox com base no nome da luva
+local function atualizarTextBox()
+    local leaderstats = player:FindFirstChild("leaderstats")
+    if leaderstats then
+        local glove = leaderstats:FindFirstChild("Glove")
+        if glove then
+            local hitName = verificarLuva(glove.Value)
+            textBox.Text = hitName
+            print("Nome da luva atualizado: " .. hitName)
         else
             print("A categoria 'Glove' não foi encontrada nos leaderstats.")
         end
@@ -458,6 +591,22 @@ local function verificarLuva()
         print("O jogador não tem leaderstats.")
     end
 end
+
+-- Monitorar mudanças no valor da luva
+local leaderstats = player:FindFirstChild("leaderstats")
+if leaderstats then
+    local glove = leaderstats:FindFirstChild("Glove")
+    if glove then
+        glove:GetPropertyChangedSignal("Value"):Connect(atualizarTextBox)
+    else
+        print("A categoria 'Glove' não foi encontrada nos leaderstats.")
+    end
+else
+    print("O jogador não tem leaderstats.")
+end
+
+-- Atualizar a TextBox no início
+atualizarTextBox()
 
 -- Função para tocar a animação de slap
 local function playAnimation()
@@ -936,8 +1085,10 @@ buttonR.MouseButton1Click:Connect(function()
     restoreGravity()
 end)
 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/ANTIS_SLAP_BATLES.lua"))();
+
 -- Atualizar o nome da luva na TextBox a cada 0.2 segundos
-while true do
-    verificarLuva() -- Chama a função para verificar a luva
-    wait(0.2)  -- Espera 0.2 segundos antes de atualizar novamente  
+while true do 
+    verificarLuva()  -- Chama a função para verificar a luva
+    task.wait(0.2)  -- Espera 0.2 segundos antes de atualizar novamente  
 end
