@@ -92,7 +92,7 @@ local function createPlatform()
 end
 
 -- Aguarda 1.5 segundos
-task.wait(1.5)
+task.wait(2.5)
 
 -- Função para teletransportar o personagem para a nova posição
 local function teleportToNewPosition()
