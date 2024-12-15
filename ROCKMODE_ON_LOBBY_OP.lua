@@ -1,7 +1,8 @@
 
 -- Criar efeito de flash branco
+local playerGui = player:WaitForChild("PlayerGui")
 local screenGui2 = Instance.new("ScreenGui")
-screenGui2.Parent = player:WaitForChild("PlayerGui")
+screenGui2.Parent = playerGui
 
 local flashFrame = Instance.new("Frame")
 flashFrame.Size = UDim2.new(1, 0, 1, 0)
