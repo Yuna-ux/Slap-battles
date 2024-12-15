@@ -1,5 +1,7 @@
 
 -- Criar efeito de flash branco
+local player = game.Players.LocalPlayer
+
 local playerGui = player:WaitForChild("PlayerGui")
 local screenGui2 = Instance.new("ScreenGui")
 screenGui2.Parent = playerGui
