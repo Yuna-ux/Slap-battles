@@ -71,25 +71,58 @@ if character and character:FindFirstChild("HumanoidRootPart") then
     character.HumanoidRootPart.CFrame = CFrame.new(-910, 331, -8)
 end
 
-local function createPlatform()
-    local platform = Instance.new("Part")  -- Cria a plataforma
-    platform.Size = Vector3.new(700, 1, 700)  -- Aumenta o tamanho da plataforma (50x1x50)
-    platform.Position = Vector3.new(37, 2647, 138)  -- Posiciona na nova posição
-    platform.Anchored = true  -- Torna a plataforma ancorada
-    platform.Transparency = 0.5  -- Define a transparência para 50%
-    platform.BrickColor = BrickColor.new("Bright blue")  -- Definir a cor da plataforma
-    platform.Parent = workspace  -- Adiciona a plataforma no workspace
+local function createPlatformWithWalls()
+    local platform = Instance.new("Part") -- Cria a plataforma
+    platform.Size = Vector3.new(700, 1, 700) -- Define o tamanho da plataforma
+    platform.Position = Vector3.new(37, 2647, 138) -- Posiciona a plataforma
+    platform.Anchored = true -- Torna a plataforma ancorada
+    platform.Transparency = 0.5 -- Define a transparência
+    platform.BrickColor = BrickColor.new("Bright blue") -- Define a cor
+    platform.Parent = workspace -- Adiciona ao workspace
     
-    -- Adiciona um comportamento de toque (Touched) à plataforma
+    -- Cria uma função auxiliar para criar paredes
+    local function createWall(size, position)
+        local wall = Instance.new("Part")
+        wall.Size = size -- Tamanho da parede
+        wall.Position = position -- Posição da parede
+        wall.Anchored = true -- Torna a parede ancorada
+        wall.BrickColor = BrickColor.new("Bright blue") -- Cor igual à plataforma
+        wall.Parent = workspace -- Adiciona ao workspace
+    end
+
+    -- Dimensões e posições das paredes
+    local wallHeight = 50
+    local wallThickness = 5
+    local platformSize = platform.Size
+
+    -- Criando as 4 paredes
+    -- Parede frontal
+    createWall(Vector3.new(platformSize.X, wallHeight, wallThickness), 
+        platform.Position + Vector3.new(0, wallHeight / 2, -(platformSize.Z / 2)))
+
+    -- Parede traseira
+    createWall(Vector3.new(platformSize.X, wallHeight, wallThickness), 
+        platform.Position + Vector3.new(0, wallHeight / 2, platformSize.Z / 2))
+
+    -- Parede esquerda
+    createWall(Vector3.new(wallThickness, wallHeight, platformSize.Z), 
+        platform.Position + Vector3.new(-(platformSize.X / 2), wallHeight / 2, 0))
+
+    -- Parede direita
+    createWall(Vector3.new(wallThickness, wallHeight, platformSize.Z), 
+        platform.Position + Vector3.new(platformSize.X / 2, wallHeight / 2, 0))
+
+    -- Adiciona o evento de toque na plataforma
     platform.Touched:Connect(function(hit)
         local characterTouching = hit.Parent
         -- Verifica se o jogador tocou a plataforma
         if characterTouching:IsA("Model") and characterTouching:FindFirstChild("Humanoid") then
             print(characterTouching.Name .. " tocou a plataforma!")
-            -- Aqui você pode adicionar mais funcionalidades ao toque
         end
     end)
 end
+
+createPlatformWithWalls()
 
 -- Aguarda 2.5 segundos
 task.wait(2.5)
