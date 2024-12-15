@@ -1,8 +1,9 @@
--- DED BARRIER XUNAXI_SCRIPTS
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/BYPASS_ANTICHEAT_XUNAXI_Scripts.lua"))();
+--DED BARRIER XUNAXI_SCRIPTS
 local dedBarrier = game.Workspace:FindFirstChild("dedBarrier")
 
 if dedBarrier then
-    -- Modificar a posição e as propriedades do objeto
     dedBarrier.Position = Vector3.new(15, -17, 41.5)
     dedBarrier.CanCollide = true
 else
@@ -10,173 +11,195 @@ else
 end
 
 -- Criar efeito de flash branco
-local player = game.Players.LocalPlayer
-local screenGui2 = Instance.new("ScreenGui")
-screenGui2.Parent = player:WaitForChild("PlayerGui")
+local function createFlashEffect()
+    local player = game.Players.LocalPlayer
+    local screenGui2 = Instance.new("ScreenGui")
+    screenGui2.Parent = player:WaitForChild("PlayerGui")
 
-local flashFrame = Instance.new("Frame")
-flashFrame.Size = UDim2.new(1, 0, 1, 0)
-flashFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-flashFrame.BackgroundTransparency = 0
-flashFrame.Parent = screenGui2
+    local flashFrame = Instance.new("Frame")
+    flashFrame.Size = UDim2.new(1, 0, 1, 0)
+    flashFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    flashFrame.BackgroundTransparency = 0
+    flashFrame.Parent = screenGui2
 
-local textLabelflash = Instance.new("TextLabel")
-textLabelflash.Size = UDim2.new(0, 300, 0, 50)
-textLabelflash.Position = UDim2.new(0.5, -150, 0.5, -25)
-textLabelflash.Font = Enum.Font.Fantasy
-textLabelflash.Text = "Replica Slap farm V3.1"
-textLabelflash.TextSize = 24
-textLabelflash.TextColor3 = Color3.fromRGB(0, 0, 0)
-textLabelflash.BackgroundTransparency = 1
-textLabelflash.Parent = screenGui2
+    local textLabelflash = Instance.new("TextLabel")
+    textLabelflash.Size = UDim2.new(0, 300, 0, 50)
+    textLabelflash.Position = UDim2.new(0.5, -150, 0.5, -25)
+    textLabelflash.Font = Enum.Font.Fantasy
+    textLabelflash.Text = "Replica Slap Farm V3.1"
+    textLabelflash.TextSize = 24
+    textLabelflash.TextColor3 = Color3.fromRGB(0, 0, 0)
+    textLabelflash.BackgroundTransparency = 1
+    textLabelflash.Parent = screenGui2
 
-task.wait(1.5)
-flashFrame:Destroy()
-textLabelflash:Destroy()
+    task.wait(1.5)
+    screenGui2:Destroy()
+end
+createFlashEffect()
 
--- Enviar a notificação com som
+-- Enviar notificação
 game:GetService("StarterGui"):SetCore("SendNotification", {
     Title = "Script Carregado, Feito por XUNAXI Scripts!",
     Icon = "rbxassetid://79497088035434",
     Text = "Divirta-se!",
     Button1 = "Sim kkk",
-    Button2 = "Cancel",
+    Button2 = "Cancelar",
     Duration = 15,
 })
 
-	for i, v in pairs(game:GetService("ReplicatedStorage")._NETWORK:GetChildren()) do
-	    -- Check if the name contains the character '{'
-	    if v.Name:find("{") then
-	        local args = {
-	            [1] = "Replica"
-	        }
-	
-	        -- Check if v is a RemoteEvent and can FireServer
-	        if v:IsA("RemoteEvent") then
-	            v:FireServer(unpack(args))
-	        elseif v:IsA("RemoteFunction") then
-	            -- If it's a RemoteFunction, use InvokeServer
-	            local result = v:InvokeServer(unpack(args))
-	            print("Result from InvokeServer:", result)  -- Optional: Print the result
-	        else
-	            print("v is neither a RemoteEvent nor a RemoteFunction.")
-	        end
-	    end
-	end
+-- Manipular _NETWORK no ReplicatedStorage
+for _, v in ipairs(game:GetService("ReplicatedStorage")._NETWORK:GetChildren()) do
+    if v.Name:find("{") then
+        local args = { "Replica" }
+        if v:IsA("RemoteEvent") then
+            v:FireServer(unpack(args))
+        elseif v:IsA("RemoteFunction") then
+            local result = v:InvokeServer(unpack(args))
+            print("Result from InvokeServer:", result)
+        else
+            print("Elemento inválido:", v.Name)
+        end
+    end
+end
 
+task.wait(0.5)
+
+-- Teletransportar personagem
+local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
--- Teletransportar o personagem para a posição inicial
 if character and character:FindFirstChild("HumanoidRootPart") then
     character.HumanoidRootPart.CFrame = CFrame.new(-910, 331, -8)
 end
 
-local function createPlatformWithWalls()
-    local platform = Instance.new("Part") -- Cria a plataforma
-    platform.Size = Vector3.new(700, 1, 700) -- Define o tamanho da plataforma
-    platform.Position = Vector3.new(37, 2647, 138) -- Posiciona a plataforma
-    platform.Anchored = true -- Torna a plataforma ancorada
-    platform.Transparency = 0.5 -- Define a transparência
-    platform.BrickColor = BrickColor.new("Bright blue") -- Define a cor
-    platform.Parent = workspace -- Adiciona ao workspace
-    
-    -- Cria uma função auxiliar para criar paredes
-    local function createWall(size, position)
-        local wall = Instance.new("Part")
-        wall.Size = size -- Tamanho da parede
-        wall.Position = position -- Posição da parede
-        wall.Anchored = true -- Torna a parede ancorada
-        wall.BrickColor = BrickColor.new("Bright blue") -- Cor igual à plataforma
-        wall.Parent = workspace -- Adiciona ao workspace
-    end
+task.wait(2)
 
-    -- Dimensões e posições das paredes
-    local wallHeight = 50
-    local wallThickness = 5
-    local platformSize = platform.Size
-
-    -- Criando as 4 paredes
-    -- Parede frontal
-    createWall(Vector3.new(platformSize.X, wallHeight, wallThickness), 
-        platform.Position + Vector3.new(0, wallHeight / 2, -(platformSize.Z / 2)))
-
-    -- Parede traseira
-    createWall(Vector3.new(platformSize.X, wallHeight, wallThickness), 
-        platform.Position + Vector3.new(0, wallHeight / 2, platformSize.Z / 2))
-
-    -- Parede esquerda
-    createWall(Vector3.new(wallThickness, wallHeight, platformSize.Z), 
-        platform.Position + Vector3.new(-(platformSize.X / 2), wallHeight / 2, 0))
-
-    -- Parede direita
-    createWall(Vector3.new(wallThickness, wallHeight, platformSize.Z), 
-        platform.Position + Vector3.new(platformSize.X / 2, wallHeight / 2, 0))
-
-    -- Adiciona o evento de toque na plataforma
-    platform.Touched:Connect(function(hit)
-        local characterTouching = hit.Parent
-        -- Verifica se o jogador tocou a plataforma
-        if characterTouching:IsA("Model") and characterTouching:FindFirstChild("Humanoid") then
-            print(characterTouching.Name .. " tocou a plataforma!")
-        end
-    end)
-end
-
-createPlatformWithWalls()
-
--- Aguarda 2.5 segundos
-task.wait(2.5)
-
--- Função para teletransportar o personagem para a nova posição
 local function teleportToNewPosition()
     if character and character:FindFirstChild("HumanoidRootPart") then
         character.HumanoidRootPart.CFrame = CFrame.new(37, 2650, 138)
     end
 end
 
--- Teletransportar o personagem e criar a plataforma
-teleportToNewPosition()
-createPlatform()
+local function createPlatformWithWallsAndCeiling()
+    local platform = Instance.new("Part")
+    platform.Size = Vector3.new(700, 1, 700)
+    platform.Position = Vector3.new(37, 2647, 138)
+    platform.Anchored = true
+    platform.Transparency = 0.5
+    platform.BrickColor = BrickColor.new("Bright blue")
+    platform.Parent = workspace
 
--- Função para executar o primeiro script (ativar Duplicate)
-local function executeFirstScript()
-    local args = {
-        [1] = true
+    local wallHeight = 50
+    local wallThickness = 5
+    local walls = {
+        { Vector3.new(platform.Size.X, wallHeight, wallThickness), Vector3.new(0, wallHeight / 2, -platform.Size.Z / 2) },
+        { Vector3.new(platform.Size.X, wallHeight, wallThickness), Vector3.new(0, wallHeight / 2, platform.Size.Z / 2) },
+        { Vector3.new(wallThickness, wallHeight, platform.Size.Z), Vector3.new(-platform.Size.X / 2, wallHeight / 2, 0) },
+        { Vector3.new(wallThickness, wallHeight, platform.Size.Z), Vector3.new(platform.Size.X / 2, wallHeight / 2, 0) },
     }
-    game:GetService("ReplicatedStorage").Duplicate:FireServer(unpack(args))
+
+    for _, wallData in ipairs(walls) do
+        local wall = Instance.new("Part")
+        wall.Size = wallData[1]
+        wall.Position = platform.Position + wallData[2]
+        wall.Anchored = true
+        wall.BrickColor = BrickColor.new("Bright blue")
+        wall.Parent = workspace
+    end
+
+    local ceiling = Instance.new("Part")
+    ceiling.Size = Vector3.new(platform.Size.X, 1, platform.Size.Z)
+    ceiling.Position = platform.Position + Vector3.new(0, wallHeight, 0)
+    ceiling.Anchored = true
+    ceiling.BrickColor = BrickColor.new("Bright blue")
+    ceiling.Parent = workspace
+end
+createPlatformWithWallsAndCeiling()
+teleportToNewPosition()
+
+-- Ativar um Remote repetidamente
+local function executeFirstScript()
+    local args = { true }
+    local duplicateRemote = game:GetService("ReplicatedStorage"):FindFirstChild("Duplicate")
+    if duplicateRemote then
+        duplicateRemote:FireServer(unpack(args))
+    end
 end
 
--- Função para executar o primeiro script a cada 7 segundos
 task.spawn(function()
     while true do
         executeFirstScript()
-        task.wait(15) -- Espera 7 segundos antes de ativar novamente
+        task.wait(7)
     end
 end)
 
+-- Loop com argumentos para servidor
 local function executeLoopScript()
-    local playerName = game.Players.LocalPlayer.Name  -- Nome do jogador local
-
-    -- Concatenando \195\133 com o nome do jogador
-    local jogadorNomeFormatado = "\195\133" .. playerName
-
-    -- Usando o nome formatado para encontrar o jogador no workspace
-    local Jogador = workspace:FindFirstChild(jogadorNomeFormatado)
-    if Jogador then
-        -- Encontrando o Torso dentro do objeto do jogador
-        local Torso = Jogador:FindFirstChild("Torso")
-        if Torso then
-            -- Criar os argumentos para passar ao FireServer
-            local args = {
-                [1] = Torso
-            }
-            -- Disparar o evento para o servidor
-            game:GetService("ReplicatedStorage").b:FireServer(unpack(args))
+    local playerName = game.Players.LocalPlayer.Name
+    local formattedName = "\195\133" .. playerName
+    local playerModel = workspace:FindFirstChild(formattedName)
+    if playerModel then
+        local torso = playerModel:FindFirstChild("Torso")
+        if torso then
+            game:GetService("ReplicatedStorage").b:FireServer(torso)
         else
-            warn("Torso not found!")
+            warn("Torso não encontrado!")
         end
     else
-        warn(jogadorNomeFormatado .. " not found in workspace!")
+        warn(formattedName .. " não encontrado no Workspace!")
+    end
+end
+
+task.spawn(function()
+    while true do
+        executeLoopScript()
+        task.wait(0.3)
+    end
+end)
+
+-- Remover barreiras
+local barriersToDelete = { "DEATHBARRIER", "DEATHBARRIER2", "ArenaBarrier", "AntiDefaultArena" }
+for _, barrierName in ipairs(barriersToDelete) do
+    local barrier = workspace:FindFirstChild(barrierName)
+    if barrier then
+        barrier:Destroy()
+    end
+end
+
+-- AntiRecord
+_G.AntiRecord = true
+
+local function monitorChat(player)
+    player.Chatted:Connect(function(message)
+        if _G.AntiRecord then
+            local lowerMessage = message:lower()
+            if lowerMessage:find("record") or lowerMessage:find("discord") then
+                game.Players.LocalPlayer:Kick("Suspeita de gravação: " .. player.Name)
+            end
+        end
+    end)
+end
+
+for _, otherPlayer in ipairs(game.Players:GetPlayers()) do
+    if otherPlayer ~= game.Players.LocalPlayer then
+        monitorChat(otherPlayer)
+    end
+end
+
+-- Loop com argumentos para servidor
+local function executeLoopScript()
+    local playerName = game.Players.LocalPlayer.Name
+    local formattedName = "\195\133" .. playerName
+    local playerModel = workspace:FindFirstChild(formattedName)
+    if playerModel then
+        local torso = playerModel:FindFirstChild("Torso")
+        if torso then
+            game:GetService("ReplicatedStorage").b:FireServer(torso)
+        else
+            warn("Torso não encontrado!")
+        end
+    else
+        warn(formattedName .. " não encontrado no Workspace!")
     end
 end
 
@@ -268,3 +291,25 @@ end
 game.Players.PlayerAdded:Connect(function(player)
     monitorChat(player)
 end)
+
+
+    local player = game.Players.LocalPlayer
+    local gui = Instance.new("ScreenGui")
+    gui.Parent = player:WaitForChild("PlayerGui")
+
+    local imageButton = Instance.new("ImageButton")
+    imageButton.Size = UDim2.new(0, 50, 0, 50) -- Tamanho do botão
+    imageButton.Position = UDim2.new(1, -70, 0, 30) -- Posição: 70 pixels para dentro e 30 para baixo
+    imageButton.AnchorPoint = Vector2.new(1, 0) -- Âncora no canto superior direito
+    imageButton.BackgroundTransparency = 1 -- Sem fundo para destacar a imagem
+    imageButton.Image = "rbxassetid://79497088035434" -- Substitua pelo ID da sua imagem
+    imageButton.Parent = gui
+
+    -- Ação ao clicar no botão
+    imageButton.MouseButton1Click:Connect(function()
+        print("Botão clicado!")
+        gui:Destroy() -- Remove o botão após o clique (opcional)
+    end)
+
+-- Chamada da função
+createStopButton()
