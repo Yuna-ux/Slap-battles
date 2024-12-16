@@ -52,6 +52,8 @@ if character and character:FindFirstChild("HumanoidRootPart") then
     humanoidRootPart.CFrame = humanoidRootPart.CFrame * CFrame.Angles(0, math.rad(90), 0)
 end
 
+task.wait(2)
+
 -- Habilidades e eventos remotos
 local function activateAbility(abilityName)
     for _, v in pairs(game:GetService("ReplicatedStorage")._NETWORK:GetChildren()) do
