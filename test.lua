@@ -7,4 +7,4 @@ local function InitConfigs()
    _G.test = _G.test or DefaultConfig.test
 end
 
-InitConfigs
+InitConfigs()
