@@ -1,4 +1,4 @@
-emojiTable = {
+return {
     grinning_face = "😀",
     grinning_face_with_big_eyes = "😃",
     grinning_face_with_smiling_eyes = "😄",
@@ -103,5 +103,3 @@ emojiTable = {
     flag_for_france = "🇫🇷",
     flag_for_uganda = "🇺🇬"
 }
-
-return emojiTable;
