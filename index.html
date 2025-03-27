@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script Copier</title>
+    <style>
+        :root {
+            --primary-color: #121212;
+            --secondary-color: #ff5733;
+            --hover-color: #ff6f50;
+            --text-color: #ffffff;
+            --button-bg: linear-gradient(45deg, #ff5733, #c70039);
+            --button-hover: linear-gradient(45deg, #ff6f50, #d60042);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: bold;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .btn {
+            background: var(--button-bg);
+            color: var(--text-color);
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.8s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            background: var(--button-hover);
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 10%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .btn:hover::before {
+            opacity: 1;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 1); /* Branco sólido */
+            border-radius: 50%;
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.9); /* Brilho mais forte */
+            animation: floatUp 5s linear infinite, wobble 3s ease-in-out infinite;
+            opacity: 0.9;
+        }
+        @keyframes floatUp {
+            from {
+                transform: translateY(0);
+                opacity: 0.5;
+            }
+            to {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <h2>Copy Scripts</h2>
+    <div class="container">
+        <button class="btn" onclick="copyText(1)">Death Glove Script</button>
+        <button class="btn" onclick="copyText(2)">Slap Aura Script</button>
+        <button class="btn" onclick="copyText(3)">EdgeLord</button>
+        <button class="btn" onclick="copyText(4)">Funax Hub</button>
+        <button class="btn" onclick="copyText(5)">Donjo Death Glove</button>
+        <button class="btn" onclick="copyText(6)">Infinite Yield</button>
+        <button class="btn" onclick="copyText(7)">Dex</button>
+        <button class="btn" onclick="copyText(8)">Http Spy V2</button>
+        <!--<button class="btn" onclick="copyText(9)">coming soon.</button> -->
+        <!-- button class="btn" onclick="copyText(13)">Copy Script 13</button> -->
+        <!-- <button class="btn" onclick="copyText(14)">Copy Script 14</button> -->
+        <!--<button class="btn" onclick="copyText(15)">Copy Script 15</button> -->
+        <!--<button class="btn" onclick="copyText(16)">Copy Script 16</button> -->
+    </div>
+        <h2>Yuna-ux Scripts!</h2>
+    <script>
+        const scripts = {
+            1: `_G.HitboxVisible = false
+                _G.BypassAntiCheatNotification = false
+                _G.HideUserName = true
+                _G.MusicThemeId = 18382734796
+
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/Yuna-ux/Slap-battles/refs/heads/main/Death_glove_V4.lua"))();
+                `,
+            2: `_G.BypassAntiCheatNotification = false
+                _G.HideUserName = true
+
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/Yuna-ux/Slap-battles/refs/heads/main/Slap_aura.lua"))();
+                `,
+            3: `print("Script 3 executed!")`,
+            4: `print("Script 4 executed!")`,
+            5: `CustomTheme = 87540733242308
+	            DeathGlove = {
+		            HideClients = false,
+		            MuteClientSounds = false,
+	                HideFEScythe = false,
+		            ClientDeathTheme = true,
+	                ShowHitboxes = true,
+	            }
+                loadstring(game:HttpGet('https://raw.githubusercontent.com/DonjoScripts/Public-Scripts/refs/heads/Slap-Battles/death%5B0.8%5D.lua'))();
+                `,
+            6: `loadstring(game:HttpGet(("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"),true))();`,
+            7: `loadstring(game:HttpGet(("https://raw.githubusercontent.com/Yuna-ux/Other-scripts/refs/heads/main/dex.lua"))();`,
+            8: `loadstring(game:HttpGet(("https://raw.githubusercontent.com/Yuna-ux/Slap-battles/refs/heads/main/HTTPSPY_V2_.lua"))();`,
+            9: `print("Script 9 executed!")`,
+            10: `print("Script 10 executed!")`,
+            11: `print("Script 11 executed!")`,
+            12: `print("Script 12 executed!")`,
+            13: `print("Script 13 executed!")`,
+            14: `print("Script 14 executed!")`,
+            15: `print("Script 15 executed!")`,
+            16: `print("Script 16 executed!")`
+        };
+
+        function copyText(index) {
+            navigator.clipboard.writeText(scripts[index]).then(() => {
+                alert(`Script ${index} copied to clipboard!`);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+
+        function createBubbles() {
+            for (let i = 0; i < 20; i++) {
+                let bubble = document.createElement("div");
+                bubble.classList.add("bubble");
+                document.body.appendChild(bubble);
+
+                let size = Math.random() * 30 + 10;
+                bubble.style.width = size + "px";
+                bubble.style.height = size + "px";
+                bubble.style.left = Math.random() * 100 + "vw";
+                bubble.style.animationDuration = Math.random() * 5 + 3 + "s";
+
+                setTimeout(() => {
+                    bubble.remove();
+                }, 8000);
+            }
+        }
+
+        setInterval(createBubbles, 2000);
+    </script>
+</body>
+</html>
